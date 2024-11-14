@@ -1,0 +1,6 @@
+<mat-nav-list>
+  <a mat-list-item routerLink="/dashboard/users">Users</a>
+  @if(!!localStorage.getItem('jwtToken')){
+    <a mat-list-item routerLink="/dashboard/cars">Cars</a>
+  }
+</mat-nav-list>
