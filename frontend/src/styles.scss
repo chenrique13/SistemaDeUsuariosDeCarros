@@ -1,0 +1,43 @@
+@use "@angular/material" as mat;
+
+$tema-claro: mat.define-theme(
+  (
+    color: (
+      theme-type: light,
+      primary: mat.$azure-palette,
+      tertiary: mat.$blue-palette,
+    ),
+  )
+);
+
+html,
+body {
+  height: 100%;
+}
+
+html {
+  @include mat.all-component-themes($tema-claro);
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+app-dashboard {
+  --mat-toolbar-container-background-color: #{mat.get-theme-color(
+      $tema-claro,
+      primary,
+      70
+    )};
+
+  --mat-sidenav-container-background-color: #{mat.get-theme-color(
+      $tema-claro,
+      primary,
+      80
+    )};
+
+  app-footer {
+    background-color: #{mat.get-theme-color($tema-claro, primary, 90)};
+  }
+}
