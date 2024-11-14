@@ -1,0 +1,17 @@
+<mat-toolbar>
+  <span class="project-name">Sistema de Usuários de Carros</span>
+
+  <span class="spacer"></span>
+
+  @if (isLoggedIn) {
+  <button mat-icon-button (click)="openMe()">
+    <mat-icon>account_circle</mat-icon>
+  </button>
+
+  <button mat-icon-button (click)="logout()">
+    <mat-icon>logout</mat-icon>
+  </button>
+  } @else {
+  <button mat-button (click)="openSignInDialog()">Sign In</button>
+  }
+</mat-toolbar>
