@@ -1,0 +1,168 @@
+<div id="container">
+  <h2 mat-dialog-title>
+    {{
+      data.action === "create"
+        ? "Create User"
+        : data.action === "edit"
+        ? "Edit User"
+        : data.action === "me"
+        ? "User Me"
+        : "Delete User"
+    }}
+  </h2>
+
+  @if(data.action === 'edit' || data.action === 'create' || data.action ===
+  'me'){
+  <mat-dialog-content>
+    <form [formGroup]="userForm">
+      <mat-form-field appearance="outline">
+        <mat-label>First Name</mat-label>
+        <input
+          matInput
+          formControlName="firstName"
+          placeholder="Enter first name"
+        />
+        @if(userForm.get('firstName')?.invalid){
+        <mat-error> First Name is required </mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Last Name</mat-label>
+        <input
+          matInput
+          formControlName="lastName"
+          placeholder="Enter last name"
+        />
+        @if(userForm.get('lastName')?.invalid){
+        <mat-error> Last Name is required </mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" placeholder="Enter email" />
+        @if(userForm.get('email')?.invalid){
+        <mat-error> Valid email is required </mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Birthday</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker"
+          formControlName="birthday"
+          placeholder="Enter birthday"
+        />
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="picker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        @if(userForm.get('birthday')?.invalid){
+        <mat-error> Birthday is required </mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Login</mat-label>
+        <input matInput formControlName="login" placeholder="Enter login" />
+        @if(userForm.get('login')?.invalid){
+        <mat-error> Login is required </mat-error>
+        }
+      </mat-form-field>
+
+      @if(data.action !== 'me'){
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input
+          matInput
+          formControlName="password"
+          [type]="hidePassword ? 'password' : 'text'"
+          placeholder="Enter your password"
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          (click)="togglePasswordVisibility()"
+          type="button"
+          aria-label="Toggle password visibility"
+        >
+          <mat-icon>{{
+            hidePassword ? "visibility_off" : "visibility"
+          }}</mat-icon>
+        </button>
+
+        @if (userForm.get('password')?.hasError('required')) {
+        <mat-error> Password is required </mat-error>
+        }
+      </mat-form-field>
+      }
+
+      <mat-form-field appearance="outline">
+        <mat-label>Phone</mat-label>
+        <input
+          matInput
+          formControlName="phone"
+          placeholder="Enter phone number"
+        />
+        @if(userForm.get('phone')?.invalid){
+        <mat-error> Phone is required </mat-error>
+        }
+      </mat-form-field>
+
+      @if(data.action === 'me'){
+      <mat-form-field appearance="outline">
+        <mat-label>Created At</mat-label>
+        <input matInput type="text" formControlName="createdAt" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Last login</mat-label>
+        <input matInput type="text" formControlName="lastLogin" />
+      </mat-form-field>
+
+      @if(cars){
+      <h2>Cars</h2>
+      @for (car of cars; track car.id) {
+      <div>
+        <mat-card>
+          <mat-card-content>
+            <p><strong>Model:</strong> {{ car.model }}</p>
+            <p><strong>Year:</strong> {{ car.year }}</p>
+            <p><strong>License Plate:</strong> {{ car.licensePlate }}</p>
+            <p><strong>Color:</strong> {{ car.color }}</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      } @empty {
+      <p>There are no cars.</p>
+      } } }
+    </form>
+  </mat-dialog-content>
+  } @else {
+  <mat-dialog-content>
+    <p>
+      Are you sure you want to delete the user
+      {{ userForm.get("firstName")?.value }}
+      {{ userForm.get("lastName")?.value }}?
+    </p>
+  </mat-dialog-content>
+  } @if(data.action !== 'me'){
+  <mat-dialog-actions>
+    @if(data.action === 'edit' || data.action === 'create'){
+    <button
+      mat-raised-button
+      color="primary"
+      [disabled]="userForm.invalid"
+      (click)="save()"
+    >
+      {{ data.action === "create" ? "Create" : "Save" }}
+    </button>
+    } @if (data.action === 'delete') {
+    <button mat-raised-button color="warn" (click)="delete()">Delete</button>
+    }
+  </mat-dialog-actions>
+  }
+</div>
