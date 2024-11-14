@@ -1,7 +1,9 @@
 package com.pitang.user.entities;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -187,5 +189,144 @@ class UserTest {
 		assertEquals(LocalDateTime.of(2020, 1, 1, 0, 0), user.getCurrentLogin());
 	}
 
+
+	/**
+	 * Testa o metodo isValid esperando o retorno verdadeiro.
+	 */
+    @Test
+    public void testIsValid_AllFieldsValid_ReturnsTrue() {
+        assertTrue(user.isValid(), "Expected isValid() to return true when all fields are valid.");
+    }
+
+	/**
+	 * Testa o atributo firstName nulo ou vazio no metodo isValid esperando o
+	 * retorno false.
+	 */
+    @Test
+    public void testIsValid_NullAndEmptyFirstName_ReturnsFalse() {
+        user.setFirstName(null);
+        assertFalse(user.isValid(), "Expected isValid() to return false when firstName is null.");
+        
+        user.setFirstName(" ");
+        assertFalse(user.isValid(), "Expected isValid() to return false when firstName is empty.");
+    }
+
+	/**
+	 * Testa o atributo lastName nulo ou vazio no metodo isValid esperando o
+	 * retorno false.
+	 */
+    @Test
+    public void testIsValid_NullAndEmptyLastName_ReturnsFalse() {
+        user.setLastName(null);
+        assertFalse(user.isValid(), "Expected isValid() to return false when lastName is null.");
+        
+        user.setLastName(" ");
+        assertFalse(user.isValid(), "Expected isValid() to return false when lastName is empty.");
+    }
+
+	/**
+	 * Testa o atributo email nulo ou vazio no metodo isValid esperando o
+	 * retorno false.
+	 */
+    @Test
+    public void testIsValid_NullAndEmptyEmail_ReturnsFalse() {
+        user.setEmail(null);
+        assertFalse(user.isValid(), "Expected isValid() to return false when email is null.");
+        
+        user.setEmail(" ");
+        assertFalse(user.isValid(), "Expected isValid() to return false when email is empty.");
+    }
+
+	/**
+	 * Testa o atributo birthday nulo no metodo isValid esperando o
+	 * retorno false.
+	 */
+    @Test
+    public void testIsValid_NullBirthday_ReturnsFalse() {
+        user.setBirthday(null);
+        assertFalse(user.isValid(), "Expected isValid() to return false when birthday is null.");
+    }
+
+	/**
+	 * Testa o atributo login nulo ou vazio no metodo isValid esperando o
+	 * retorno false.
+	 */
+    @Test
+    public void testIsValid_NullAndEmptyLogin_ReturnsFalse() {
+        user.setLogin(null);
+        assertFalse(user.isValid(), "Expected isValid() to return false when login is null.");
+        
+        user.setLogin(" ");
+        assertFalse(user.isValid(), "Expected isValid() to return false when login is empty.");
+    }
+
+	/**
+	 * Testa o atributo password nulo ou vazio no metodo isValid esperando o
+	 * retorno false.
+	 */
+    @Test
+    public void testIsValid_NullAndEmptyPassword_ReturnsFalse() {
+        user.setPassword(null);
+        assertFalse(user.isValid(), "Expected isValid() to return false when password is null.");
+        
+        user.setPassword(" ");
+        assertFalse(user.isValid(), "Expected isValid() to return false when password is empty.");
+    }
+
+	/**
+	 * Testa o atributo phone nulo ou vazio no metodo isValid esperando o
+	 * retorno false.
+	 */
+    @Test
+    public void testIsValid_NullAndEmptyPhone_ReturnsFalse() {
+        user.setPhone(null);
+        assertFalse(user.isValid(), "Expected isValid() to return false when phone is null.");
+        
+        user.setPhone(" ");
+        assertFalse(user.isValid(), "Expected isValid() to return false when phone is empty.");
+    }
 	
+	/**
+	 * Testa o metodo equals. Verifica se dois objetos {@link User} sao considerados
+	 * iguais com base no id, email e login.
+	 */
+	@SuppressWarnings("unlikely-arg-type")
+	@Test
+	public void testEquals() {
+		User user2 = new User(1L, "Carlos", "Pereira", "teste@gmail.com",
+				Date.from(LocalDate.of(1994, 1, 1).atStartOfDay(ZoneId.systemDefault()).toInstant()), "cPereira",
+				"teste", "81988888888", listCars);
+		User user3 = new User(3L, "Henrique", "Silva", "teste3@gmail.com",
+				Date.from(LocalDate.of(2000, 1, 1).atStartOfDay(ZoneId.systemDefault()).toInstant()), "hSilva",
+				"teste3", "81999999999", listCars);
+
+		assertTrue(user.equals(user));
+		assertFalse(user.equals(null));
+		assertFalse(user.equals("OutraClasse"));
+		assertTrue(user.equals(user2));
+		assertFalse(user.equals(user3));
+	}
+
+	/**
+	 * Testa o metodo hashCode. Verifica se o hashCode é gerado corretamente com
+	 * base no id, email e login.
+	 */
+	@Test
+	public void testHashCode() {
+		User user4 = new User(1L, "Carlos", "Pereira", "teste@gmail.com",
+				Date.from(LocalDate.of(1994, 1, 1).atStartOfDay(ZoneId.systemDefault()).toInstant()), "cPereira",
+				"teste", "81988888888", listCars);
+
+		assertEquals(user.hashCode(), user4.hashCode());
+	}
+
+	/**
+	 * Testa o metodo toString. Verifica se a representacao textual do {@link User}
+	 * é gerada corretamente.
+	 */
+	@Test
+	public void testToString() {
+		String toString = "User [id=1, firstName=Carlos, lastName=Pereira, email=teste@gmail.com, birthday=Sat Jan 01 00:00:00 BRST 1994, login=cPereira, password=teste, phone=81988888888, cars=[1]]";
+		assertEquals(toString, user.toString());
+	}
 }
