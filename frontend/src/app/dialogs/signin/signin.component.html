@@ -1,0 +1,57 @@
+<div id="container">
+  <h2 mat-dialog-title>Sign In</h2>
+
+  <mat-dialog-content>
+    <form [formGroup]="signInForm" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="outline">
+        <mat-label>Login</mat-label>
+        <input
+          matInput
+          formControlName="login"
+          type="text"
+          placeholder="Enter your login"
+        />
+
+        @if (signInForm.get('login')?.hasError('required')) {
+        <mat-error> Login is required </mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input
+          matInput
+          formControlName="password"
+          [type]="hidePassword ? 'password' : 'text'"
+          placeholder="Enter your password"
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          (click)="togglePasswordVisibility()"
+          type="button"
+          aria-label="Toggle password visibility"
+        >
+          <mat-icon>{{
+            hidePassword ? "visibility_off" : "visibility"
+          }}</mat-icon>
+        </button>
+
+        @if (signInForm.get('password')?.hasError('required')) {
+        <mat-error> Password is required </mat-error>
+        }
+      </mat-form-field>
+
+      <mat-dialog-actions>
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="signInForm.invalid"
+        >
+          Sign In
+        </button>
+      </mat-dialog-actions>
+    </form>
+  </mat-dialog-content>
+</div>
