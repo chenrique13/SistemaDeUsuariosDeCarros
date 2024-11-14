@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
@@ -65,4 +66,126 @@ class UserTest {
 		assertEquals(listCars, user.getCars());
 	}
 
+	/**
+	 * Testa os metodos get e set para o id. Verifica se obtem e define o id
+	 * corretamente.
+	 */
+	@Test
+	public void testGetSetId() {
+		user.setId(Long.valueOf(2));
+		assertEquals(Long.valueOf(2), user.getId());
+	}
+
+	/**
+	 * Testa os metodos get e set para o nome. Verifica se obtem e define o nome
+	 * corretamente.
+	 */
+	@Test
+	public void testGetSetFirstName() {
+		user.setFirstName("Henrique");
+		assertEquals("Henrique", user.getFirstName());
+	}
+
+	/**
+	 * Testa os metodos get e set para o sobrenome. Verifica se obtem e define o
+	 * sobrenome corretamente.
+	 */
+	@Test
+	public void testGetSetLastName() {
+		user.setLastName("Silva");
+		assertEquals("Silva", user.getLastName());
+	}
+
+	/**
+	 * Testa os metodos get e set para o email. Verifica se obtem e define o email
+	 * corretamente.
+	 */
+	@Test
+	public void testGetSetEmail() {
+		user.setEmail("teste2@gmail.com");
+		assertEquals("teste2@gmail.com", user.getEmail());
+	}
+
+	/**
+	 * Testa os metodos get e set para a data de nascimento. Verifica se obtem e
+	 * define a data de nascimento corretamente.
+	 */
+	@Test
+	public void testGetSetBirthday() {
+		user.setBirthday(Date.from(LocalDate.of(2020, 1, 1).atStartOfDay(ZoneId.systemDefault()).toInstant()));
+		assertEquals(Date.from(LocalDate.of(2020, 1, 1).atStartOfDay(ZoneId.systemDefault()).toInstant()),
+				user.getBirthday());
+	}
+
+	/**
+	 * Testa os metodos get e set para o login. Verifica se obtem e define o login
+	 * corretamente.
+	 */
+	@Test
+	public void testGetSetLogin() {
+		user.setLogin("hSilva");
+		assertEquals("hSilva", user.getLogin());
+	}
+
+	/**
+	 * Testa os metodos get e set para o password. Verifica se obtem e define o
+	 * password corretamente.
+	 */
+	@Test
+	public void testGetSetPassword() {
+		user.setPassword("teste2");
+		assertEquals("teste2", user.getPassword());
+	}
+
+	/**
+	 * Testa os metodos get e set para o telefone. Verifica se obtem e define o
+	 * telefone corretamente.
+	 */
+	@Test
+	public void testGetSetPhone() {
+		user.setPhone("81999999999");
+		assertEquals("81999999999", user.getPhone());
+	}
+
+	/**
+	 * Testa os metodos get e set para a lista de ids dos carros. Verifica se obtem
+	 * e define a lista de ids dos carros corretamente.
+	 */
+	@Test
+	public void testGetSetCars() {
+		user.setCars(new ArrayList<Long>());
+		assertEquals(new ArrayList<Long>(), user.getCars());
+	}
+
+	/**
+	 * Testa os metodos get e set para a data de criacao. Verifica se obtem e define
+	 * o telefone corretamente.
+	 */
+	@Test
+	public void testGetSetCreatedAt() {
+		user.setCreatedAt(LocalDateTime.of(2020, 1, 1, 0, 0));
+		assertEquals(LocalDateTime.of(2020, 1, 1, 0, 0), user.getCreatedAt());
+	}
+
+	/**
+	 * Testa os metodos get e set para o ultimo login antes do atual. Verifica se obtem e define o
+	 * telefone corretamente.
+	 */
+	@Test
+	public void testGetSetLastLogin() {
+		user.setLastLogin(LocalDateTime.of(2020, 1, 1, 0, 0));
+		assertEquals(LocalDateTime.of(2020, 1, 1, 0, 0), user.getLastLogin());
+	}
+	
+	/**
+	 * Testa os metodos get e set para o login atual. Verifica se obtem e define o
+	 * telefone corretamente.
+	 */
+	@Test
+	public void testGetSetCurrentLogin() {
+		user.setCurrentLogin(LocalDateTime.of(2020, 1, 1, 0, 0));
+		assertEquals(LocalDateTime.of(2020, 1, 1, 0, 0), user.getCurrentLogin());
+	}
+
+	
 }
