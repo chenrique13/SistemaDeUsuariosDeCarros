@@ -1,0 +1,25 @@
+#container {
+  mat-dialog-content {
+    padding: 2rem;
+    max-width: 400px;
+
+    mat-card {
+      mat-card-content {
+        padding: 2rem;
+      }
+    }
+
+    form {
+      display: grid;
+      gap: 1rem;
+    }
+  }
+
+  mat-dialog-actions {
+    width: 100%;
+
+    button {
+      width: 100%;
+    }
+  }
+}

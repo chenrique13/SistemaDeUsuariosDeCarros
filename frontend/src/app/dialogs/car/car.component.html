@@ -1,0 +1,75 @@
+<div id="container">
+  <h2 mat-dialog-title>
+    {{
+      data.action === "create"
+        ? "Create Car"
+        : data.action === "edit"
+        ? "Edit Car"
+        : "Delete Car"
+    }}
+  </h2>
+
+  @if(data.action === 'edit' || data.action === 'create'){
+  <mat-dialog-content>
+    <form [formGroup]="carForm">
+      <mat-form-field appearance="outline">
+        <mat-label>Model</mat-label>
+        <input matInput formControlName="model" placeholder="Enter Model" />
+        @if(carForm.get('model')?.invalid){
+        <mat-error> Model is required </mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Year</mat-label>
+        <input matInput formControlName="year" placeholder="Enter year" />
+        @if(carForm.get('year')?.invalid){
+        <mat-error> Year is required </mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>License Plate</mat-label>
+        <input
+          matInput
+          formControlName="licensePlate"
+          placeholder="Enter License Plate"
+        />
+        @if(carForm.get('licensePlate')?.invalid){
+        <mat-error> Valid License Plate is required </mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Color</mat-label>
+        <input matInput formControlName="color" placeholder="Enter color" />
+        @if(carForm.get('color')?.invalid){
+        <mat-error> Color is required </mat-error>
+        }
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+  } @else {
+  <mat-dialog-content>
+    <p>
+      Are you sure you want to delete the car
+      {{ carForm.get("model")?.value }}
+      {{ carForm.get("licensePlate")?.value }}?
+    </p>
+  </mat-dialog-content>
+  }
+  <mat-dialog-actions>
+    @if(data.action === 'edit' || data.action === 'create'){
+    <button
+      mat-raised-button
+      color="primary"
+      [disabled]="carForm.invalid"
+      (click)="save()"
+    >
+      {{ data.action === "create" ? "Create" : "Save" }}
+    </button>
+    } @if (data.action === 'delete') {
+    <button mat-raised-button color="warn" (click)="delete()">Delete</button>
+    }
+  </mat-dialog-actions>
+</div>
