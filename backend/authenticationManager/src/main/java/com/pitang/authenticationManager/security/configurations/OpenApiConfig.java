@@ -22,6 +22,6 @@ public class OpenApiConfig {
                         .version("v1.0"))
                 .externalDocs(new ExternalDocumentation()
                         .description("Mais detalhes")
-                        .url(""));
+                        .url("https://github.com/chenrique13/SistemaDeUsuariosDeCarros"));
     }
 }
