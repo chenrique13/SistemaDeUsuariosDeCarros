@@ -29,7 +29,7 @@ class UserInfoDTOTest {
 
         userInfoDTO = new UserInfoDTO(
                 "Maria", "Silva", "maria.silva@example.com",
-                birthday, "mariasilva", "senha123", "1234567890",
+                birthday, "mariasilva", "1234567890",
                 List.of(new CarDTO(1L, 2020, "ABCD1234", "Corolla", "Branco")),
                 createdAt, lastLogin
         );

@@ -6,26 +6,37 @@ import java.util.List;
 
 import com.pitang.common.dtos.cars.CarDTO;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 public class UserDTO  implements Serializable{
 
 	private static final long serialVersionUID = 6263165937218446463L;
 
+	@Schema(description = "Id do usuário.", example = "1")
 	private Long id;
 	
+	@Schema(description = "Nome do usuário.", example = "Carlos")
 	private String firstName;
 
+	@Schema(description = "Sobrenome do usuário.", example = "Pereira")
 	private String lastName;
 
+	@Schema(description = "E-mail do usuário.", example = "c.henrique@gmail.com")
 	private String email;
-
+	
+	@Schema(description = "Data de nascimento do usuário.", example = "2024-01-01")
 	private Date birthday;
-
+	
+	@Schema(description = "Login do usuário.", example = "Chenrique")
 	private String login;
-
+	
+	@Schema(description = "Senha do usuário.", example = "senha123")
 	private String password;
-
+	
+	@Schema(description = "Telefone do usuário.", example = "81912345678")
 	private String phone;
 
+	@Schema(description = "Lista de carros do usuário", implementation = CarDTO.class)
 	private List<CarDTO> cars;
 	
 	public UserDTO() {

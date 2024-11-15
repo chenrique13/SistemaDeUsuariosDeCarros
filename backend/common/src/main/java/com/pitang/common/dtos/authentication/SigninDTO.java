@@ -1,20 +1,25 @@
 package com.pitang.common.dtos.authentication;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * Classe resonsável por ser o modelo de dados no login de um Usuário.
  *
  * @author Carlos Pereira
  */
+@Schema(description = "DTO que representa o modelo de dados do signin para autenticação no sistema.")
 public class SigninDTO {
 
 	/**
 	 * Login do Usuário.
 	 */
+	@Schema(description = "Login do usuário.", example = "Carlos")
 	private String login;
 
 	/**
 	 * Senha do Usuário.
 	 */
+	@Schema(description = "Senha do usuário.", example = "Senha123")
 	private String password;
 
 	/**
