@@ -18,6 +18,9 @@ import com.pitang.common.dtos.cars.SaveUpdateCarDTO;
 import com.pitang.common.proxies.CarProxy;
 import com.pitang.common.utils.JwtUtils;
 
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
@@ -41,6 +44,7 @@ public class CarController implements CarProxy {
 	 * @return ResponseEntity<List<{@link CarDTO}>>
 	 */
 	@Override
+	@Operation(summary = "Find All Cars", description = "Busca todos os carros do usuário logado.")
 	public ResponseEntity<List<CarDTO>> findAllCars() {
 		return ResponseEntity.ok(servicoCar.findAllCarsByUserLogin(jwtUtils.getLoginFromToken(request)));
 	}
@@ -54,7 +58,10 @@ public class CarController implements CarProxy {
 	 * @return ResponseEntity<<{@link CarDTO}>>
 	 */
 	@Override
-	public ResponseEntity<CarDTO> findCarById(@PathVariable Long id) {
+	@Operation(summary = "Find Car By Id", description = "Busca um carro do usuário logado por id.")
+	public ResponseEntity<CarDTO> findCarById(
+			@Parameter(description = "Id do carro a ser consultado.", required = true, example = "1") 
+			@PathVariable Long id) {
 		return ResponseEntity.ok(servicoCar.findCarById(id, jwtUtils.getLoginFromToken(request)));
 	}
 
@@ -67,7 +74,10 @@ public class CarController implements CarProxy {
 	 * @return ResponseEntity< {@link Car} >
 	 */
 	@Override
-	public ResponseEntity<CarDTO> insertCar(@RequestBody SaveUpdateCarDTO newcar) {
+	@Operation(summary = "Insert Car", description = "Insere um carro no sistema.")
+	public ResponseEntity<CarDTO> insertCar(
+			@io.swagger.v3.oas.annotations.parameters.RequestBody (description = "Detalhes do carro a ser criado.", required = true)
+			@RequestBody SaveUpdateCarDTO newcar) {
 		CarDTO novoCarro = servicoCar.insertCar(newcar, jwtUtils.getLoginFromToken(request));
 
 		URI uri = UriComponentsBuilder.fromPath("car/").buildAndExpand(novoCarro.getId()).toUri();
@@ -84,7 +94,12 @@ public class CarController implements CarProxy {
 	 * @return ResponseEntity< {@link Car} >
 	 */
 	@Override
-	public ResponseEntity<CarDTO> updateCar(@PathVariable Long id, @RequestBody SaveUpdateCarDTO updateCarDTO) {
+	@Operation(summary = "Update Car", description = "Atualiza um carro no sistema.")
+	public ResponseEntity<CarDTO> updateCar(
+			@Parameter(description = "Id do carro a ser atualizado.", required = true, example = "1") 
+			@PathVariable Long id, 
+			@io.swagger.v3.oas.annotations.parameters.RequestBody (description = "Detalhes do carro a ser atualizado.", required = true)
+			@RequestBody SaveUpdateCarDTO updateCarDTO) {
 		CarDTO carroAtualizado = servicoCar.updateCar(id, updateCarDTO, jwtUtils.getLoginFromToken(request));
 
 		if (carroAtualizado != null) {
@@ -102,7 +117,10 @@ public class CarController implements CarProxy {
 	 * @return ResponseEntity< {@link Void} >
 	 */
 	@Override
-	public ResponseEntity<Void> deleteCar(@PathVariable Long id) {
+	@Operation(summary = "Delete Car", description = "Deleta um carro no sistema.")
+	public ResponseEntity<Void> deleteCar(
+			@Parameter(description = "Id do carro a ser deletado.", required = true, example = "1") 
+			@PathVariable Long id) {
 		servicoCar.deleteCar(id, jwtUtils.getLoginFromToken(request));
 
 		return ResponseEntity.noContent().build();
@@ -118,6 +136,7 @@ public class CarController implements CarProxy {
 	 * @return ResponseEntity< {@link Void} >
 	 */
 	@Override
+	@Hidden
 	public List<CarDTO> findAllCarsbyIds(List<Long> listIdsCars) {
 		return servicoCar.findAllCarsByIds(listIdsCars);
 	}
