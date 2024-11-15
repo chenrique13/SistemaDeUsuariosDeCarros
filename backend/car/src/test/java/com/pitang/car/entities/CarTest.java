@@ -10,14 +10,14 @@ import org.junit.jupiter.api.Test;
 
 class CarTest {
 
-	private Car carro;
+	private Car car;
 
 	/**
 	 * Inicializa os objetos necessarios antes de cada teste.
 	 */
 	@BeforeEach
 	public void runBeforeEachTest() {
-		carro = new Car(1L, 2024, "OYS7809", "YARIS", "PRETO");
+		car = new Car(1L, 2024, "OYS7809", "YARIS", "PRETO");
 	}
 
 	/**
@@ -40,100 +40,146 @@ class CarTest {
 	 */
 	@Test
 	public void testConstructorWithArguments() {
-		assertEquals(1L, carro.getId());
-		assertEquals(2024, carro.getYear());
-		assertEquals("OYS7809", carro.getLicensePlate());
-		assertEquals("YARIS", carro.getModel());
-		assertEquals("PRETO", carro.getColor());
+		assertEquals(1L, car.getId());
+		assertEquals(2024, car.getYear());
+		assertEquals("OYS7809", car.getLicensePlate());
+		assertEquals("YARIS", car.getModel());
+		assertEquals("PRETO", car.getColor());
 	}
 
-    /**
-     * Testa os metodos get e set para o id.
-     * Verifica se obtem e define o id corretamente.
-     */
+	/**
+	 * Testa os metodos get e set para o id. Verifica se obtem e define o id
+	 * corretamente.
+	 */
 	@Test
 	public void testGetSetId() {
-		carro.setId(2L);
-		assertEquals(2L, carro.getId());
+		car.setId(2L);
+		assertEquals(2L, car.getId());
 	}
 
-    /**
-     * Testa os metodos get e set para o ano de fabricacao.
-     * Verifica se obtem e define o ano de fabricacao corretamente.
-     */
+	/**
+	 * Testa os metodos get e set para o ano de fabricacao. Verifica se obtem e
+	 * define o ano de fabricacao corretamente.
+	 */
 	@Test
 	public void testGetSetYear() {
-		carro.setYear(2025);
-		assertEquals(2025, carro.getYear());
+		car.setYear(2025);
+		assertEquals(2025, car.getYear());
 	}
 
-    /**
-     * Testa os metodos get e set para a placa.
-     * Verifica se obtem e define a placa corretamente.
-     */
+	/**
+	 * Testa os metodos get e set para a placa. Verifica se obtem e define a placa
+	 * corretamente.
+	 */
 	@Test
 	public void testGetSetLicensePlate() {
-		carro.setLicensePlate("KIC2050");
-		assertEquals("KIC2050", carro.getLicensePlate());
+		car.setLicensePlate("KIC2050");
+		assertEquals("KIC2050", car.getLicensePlate());
 	}
 
-    /**
-     * Testa os metodos get e set para o modelo.
-     * Verifica se obtem e define o modelo corretamente.
-     */
+	/**
+	 * Testa os metodos get e set para o modelo. Verifica se obtem e define o modelo
+	 * corretamente.
+	 */
 	@Test
 	public void testGetSetModel() {
-		carro.setModel("COROLLA");
-		assertEquals("COROLLA", carro.getModel());
+		car.setModel("COROLLA");
+		assertEquals("COROLLA", car.getModel());
 	}
 
-    /**
-     * Testa os metodos get e set para a cor.
-     * Verifica se obtem e define a cor corretamente.
-     */
+	/**
+	 * Testa os metodos get e set para a cor. Verifica se obtem e define a cor
+	 * corretamente.
+	 */
 	@Test
 	public void testGetSetColor() {
-		carro.setColor("BRANCO");
-		assertEquals("BRANCO", carro.getColor());
+		car.setColor("BRANCO");
+		assertEquals("BRANCO", car.getColor());
 	}
-	
-    /**
-     * Testa o metodo equals.
-     * Verifica se dois objetos Car sao considerados iguais
-     * com base no id e licensePlate.
-     */
-    @SuppressWarnings("unlikely-arg-type")
+
+	/**
+	 * Testa o metodo isValid esperando o retorno verdadeiro.
+	 */
 	@Test
-    public void testEquals() {
-    	Car carro2 = new Car(1L, 2024, "OYS7809", "YARIS", "PRETO");
-    	Car carro3 = new Car(3L, 2025, "AAA4321", "PALIO", "CINZA");
+	public void testIsValid_AllFieldsValid_ReturnsTrue() {
+		assertTrue(car.isValid(), "Expected isValid() to return true when all fields are valid.");
+	}
 
-        assertTrue(carro.equals(carro));
-        assertFalse(carro.equals(null));
-        assertFalse(carro.equals("OutraClasse"));
-        assertTrue(carro.equals(carro2));
-        assertFalse(carro.equals(carro3));
-    }
+	/**
+	 * Testa o atributo model nulo ou vazio no metodo isValid esperando o retorno
+	 * false.
+	 */
+	@Test
+	public void testIsValid_NullAndEmptyFirstName_ReturnsFalse() {
+		car.setModel(null);
+		assertFalse(car.isValid(), "Expected isValid() to return false when firstName is null.");
 
-    /**
-     * Testa o metodo hashCode.
-     * Verifica se o hashCode é gerado corretamente com base no id e licensePlate.
-     */
-    @Test
-    public void testHashCode() {
-    	Car carro4 = new Car(1L, 2024, "OYS7809", "YARIS", "PRETO");
+		car.setModel(" ");
+		assertFalse(car.isValid(), "Expected isValid() to return false when firstName is empty.");
+	}
 
-        assertEquals(carro.hashCode(), carro4.hashCode());
-    }
+	/**
+	 * Testa o atributo licensePlate nulo ou vazio no metodo isValid esperando o
+	 * retorno false.
+	 */
+	@Test
+	public void testIsValid_NullAndEmptyLastName_ReturnsFalse() {
+		car.setLicensePlate(null);
+		assertFalse(car.isValid(), "Expected isValid() to return false when lastName is null.");
 
-    /**
-     * Testa o metodo toString.
-     * Verifica se a representacao textual do {@link Car} é gerada corretamente.
-     */
-    @Test
-    public void testToString() {
-        String representacaoTextual = "Car [id=1, year=2024, licensePlate=OYS7809, model=YARIS, color=PRETO]";
-        assertEquals(representacaoTextual, carro.toString());
-    }
-	
+		car.setLicensePlate(" ");
+		assertFalse(car.isValid(), "Expected isValid() to return false when lastName is empty.");
+	}
+
+	/**
+	 * Testa o atributo color nulo ou vazio no metodo isValid esperando o retorno
+	 * false.
+	 */
+	@Test
+	public void testIsValid_NullAndEmptyEmail_ReturnsFalse() {
+		car.setColor(null);
+		assertFalse(car.isValid(), "Expected isValid() to return false when email is null.");
+
+		car.setColor(" ");
+		assertFalse(car.isValid(), "Expected isValid() to return false when email is empty.");
+	}
+
+	/**
+	 * Testa o metodo equals. Verifica se dois objetos Car sao considerados iguais
+	 * com base no id e licensePlate.
+	 */
+	@SuppressWarnings("unlikely-arg-type")
+	@Test
+	public void testEquals() {
+		Car car2 = new Car(1L, 2024, "OYS7809", "YARIS", "PRETO");
+		Car car3 = new Car(3L, 2025, "AAA4321", "PALIO", "CINZA");
+
+		assertTrue(car.equals(car));
+		assertFalse(car.equals(null));
+		assertFalse(car.equals("OutraClasse"));
+		assertTrue(car.equals(car2));
+		assertFalse(car.equals(car3));
+	}
+
+	/**
+	 * Testa o metodo hashCode. Verifica se o hashCode é gerado corretamente com
+	 * base no id e licensePlate.
+	 */
+	@Test
+	public void testHashCode() {
+		Car car4 = new Car(1L, 2024, "OYS7809", "YARIS", "PRETO");
+
+		assertEquals(car.hashCode(), car4.hashCode());
+	}
+
+	/**
+	 * Testa o metodo toString. Verifica se a representacao textual do {@link Car} é
+	 * gerada corretamente.
+	 */
+	@Test
+	public void testToString() {
+		String toString = "Car [id=1, year=2024, licensePlate=OYS7809, model=YARIS, color=PRETO]";
+		assertEquals(toString, car.toString());
+	}
+
 }
