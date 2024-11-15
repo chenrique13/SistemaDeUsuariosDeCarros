@@ -24,6 +24,9 @@ import com.pitang.user.entities.User;
 import com.pitang.user.services.SecurityService;
 import com.pitang.user.services.UserService;
 
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
@@ -50,6 +53,7 @@ public class UserController implements UserProxy{
 	 * @return ResponseEntity<List<{@link UserDTO}>>
 	 */
 	@Override
+	@Operation(summary = "Find All Users", description = "Buscar todos os usuários e seus carros.")
 	public ResponseEntity<List<UserDTO>> findAllUsers() {
 		List<UserDTO> listaUsuarios = userService.findAllUsers();
 		
@@ -65,7 +69,10 @@ public class UserController implements UserProxy{
 	 * @return ResponseEntity<<{@link UserDTO}>>
 	 */
 	@Override
-	public ResponseEntity<UserDTO> findUserById(@PathVariable Long id) {
+	@Operation(summary = "Find User By Id", description = "Busca por id o usuário e seus carros.")
+	public ResponseEntity<UserDTO> findUserById(
+			@Parameter(description = "Id do usuário a ser consultado.", required = true, example = "1") 
+			@PathVariable Long id) {
 		UserDTO userDTO = userService.findUserById(id);
 
 		if (userDTO != null) {
@@ -84,7 +91,10 @@ public class UserController implements UserProxy{
 	 * @return ResponseEntity< {@link UserDTO} >
 	 */
 	@Override
-	public ResponseEntity<UserDTO> insertUser(@RequestBody SaveUserDTO saveUserDTO) {
+	@Operation(summary = "Insert User", description = "Insere um usuário com seus carros no sistema.")
+	public ResponseEntity<UserDTO> insertUser(
+			@io.swagger.v3.oas.annotations.parameters.RequestBody (description = "Detalhes do usuário a ser criado.", required = true)
+			@RequestBody SaveUserDTO saveUserDTO) {
 		UserDTO userDTO = userService.insertUser(saveUserDTO);
 
 		URI uri = UriComponentsBuilder.fromPath("user/").buildAndExpand(userDTO.getId()).toUri();
@@ -101,7 +111,12 @@ public class UserController implements UserProxy{
 	 * @return ResponseEntity< {@link UserDTO} >
 	 */
 	@Override
-	public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody UpdateUserDTO updateUserDTO) {
+	@Operation(summary = "Update User", description = "Atualiza um usuário no sistema.")
+	public ResponseEntity<UserDTO> updateUser(
+			@Parameter(description = "Id do usuário a ser atualizado.", required = true, example = "1") 
+			@PathVariable Long id, 
+			@io.swagger.v3.oas.annotations.parameters.RequestBody (description = "Detalhes do usuário a ser atualizado.", required = true)
+			@RequestBody UpdateUserDTO updateUserDTO) {
 		UserDTO userDTO = userService.updateUser(id, updateUserDTO);
 
 		if (userDTO != null) {
@@ -120,7 +135,10 @@ public class UserController implements UserProxy{
 	 * @return ResponseEntity< {@link Void} >
 	 */
 	@Override
-	public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+	@Operation(summary = "Delete User", description = "Deleta um usuário no sistema.")
+	public ResponseEntity<Void> deleteUser(
+			@Parameter(description = "Id do usuário a ser deletado.", required = true, example = "1") 
+			@PathVariable Long id) {
 		userService.deleteUser(id);
 
 		return ResponseEntity.noContent().build();
@@ -134,22 +152,11 @@ public class UserController implements UserProxy{
 	 * @return ResponseEntity<<{@link UserInfoDTO}>>
 	 */
 	@Override
+	@Operation(summary = "Finde Me", description = "Busca informações do o usuário logado, seus carros, data de criação e de último login.")
 	public ResponseEntity<UserInfoDTO> findMe() {
 		String login = jwtUtils.getLoginFromToken(request);
 		
 		return ResponseEntity.ok(userService.findMe(login));
-	}
-
-	/**
-	 * Endpoint responsavel por buscar o usuario por login. {@link User}
-	 *
-	 * @autor Carlos Pereira
-	 *
-	 * @return {@link UserDTO}
-	 */
-	@Override
-	public UserDTO findUserByLogin(String login) {
-		return userService.findUserByLogin(login);
 	}
 
 	/**
@@ -161,7 +168,10 @@ public class UserController implements UserProxy{
 	 * @return ResponseEntity Void
 	 */
 	@Override
-	public ResponseEntity<Void> signinUser(SigninDTO signinDTO) {
+	@Operation(summary = "Signin User", description = "Faz a autenticação do usuário no sistema com a geração do token JWT.")
+	public ResponseEntity<Void> signinUser(
+			@io.swagger.v3.oas.annotations.parameters.RequestBody (description = "Detalhes do usuário a ser autenticado.", required = true)
+			@RequestBody SigninDTO signinDTO) {
 		String token = securityService.signinToken(signinDTO);
 
 		if (token != null) {
@@ -171,6 +181,19 @@ public class UserController implements UserProxy{
 		}
 
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+	}
+	
+	/**
+	 * Endpoint responsavel por buscar o usuario por login. {@link User}
+	 *
+	 * @autor Carlos Pereira
+	 *
+	 * @return {@link UserDTO}
+	 */
+	@Override
+	@Hidden
+	public UserDTO findUserByLogin(String login) {
+		return userService.findUserByLogin(login);
 	}
 
 	/**
@@ -182,6 +205,7 @@ public class UserController implements UserProxy{
 	 * @param login
 	 */
 	@Override
+	@Hidden
 	public void addCarToUser(Long id, String login) {
 		userService.addCarToUser(id, login);
 	}
@@ -195,6 +219,7 @@ public class UserController implements UserProxy{
 	 * @param login
 	 */
 	@Override
+	@Hidden
 	public void deleteCarToUser(Long id, String login) {
 		userService.deleteCarToUser(id, login);
 	}
