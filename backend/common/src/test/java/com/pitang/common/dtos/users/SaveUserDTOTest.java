@@ -7,15 +7,16 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import com.pitang.common.dtos.cars.CarDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import com.pitang.common.dtos.cars.SaveUpdateCarDTO;
 
 class SaveUserDTOTest {
 
 	private SaveUserDTO saveUserDTO;
 	private Date birthday;
-	private List<CarDTO> cars;
+	private List<SaveUpdateCarDTO> cars;
 
 	/**
 	 * Inicializa os objetos necessários antes de cada teste.
@@ -23,8 +24,8 @@ class SaveUserDTOTest {
 	@BeforeEach
 	public void runBeforeEachTest() {
 		birthday = new Date();
-		cars = Arrays.asList(new CarDTO(1L, 2020, "ABC-1234", "ONIX", "Preto"),
-				new CarDTO(2L, 2021, "XYZ-5678", "YARIS", "Branco"));
+		cars = Arrays.asList(new SaveUpdateCarDTO(2020, "ABC-1234", "ONIX", "Preto"),
+				new SaveUpdateCarDTO(2021, "XYZ-5678", "YARIS", "Branco"));
 
 		saveUserDTO = new SaveUserDTO("Carlos", "Silva", "carlos.silva@example.com", birthday, "carlossilva",
 				"senha123", "1234567890", cars);
