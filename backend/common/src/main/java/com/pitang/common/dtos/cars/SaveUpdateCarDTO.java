@@ -2,16 +2,22 @@ package com.pitang.common.dtos.cars;
 
 import java.io.Serializable;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 public class SaveUpdateCarDTO implements Serializable{
 
 	private static final long serialVersionUID = -27439010688617984L;
 	
+	@Schema(description = "Ano de fabricação do carro.", example = "2024")
 	private int year;
 	
+	@Schema(description = "Placa do carro.", example = "KIC-2050")
 	private String licensePlate;
 	
+	@Schema(description = "Modelo do carro.", example = "ONIX")
 	private String model;
 	
+	@Schema(description = "Cor do carro.", example = "PRATA")
 	private String color;
 
 	public SaveUpdateCarDTO() {
