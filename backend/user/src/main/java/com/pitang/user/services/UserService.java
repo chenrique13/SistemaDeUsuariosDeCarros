@@ -108,10 +108,9 @@ public class UserService {
 		if (user.isPresent()) {
 			List<CarDTO> listCarDTO = carProxy.findAllCarsbyIds(user.get().getCars());
 
-			UserInfoDTO userInfoDTO = new UserInfoDTO(user.get().getFirstName(),
-					user.get().getLastName(), user.get().getEmail(), user.get().getBirthday(), user.get().getLogin(),
-					user.get().getPassword(), user.get().getPhone(), listCarDTO, user.get().getCreatedAt(),
-					user.get().getLastLogin());
+			UserInfoDTO userInfoDTO = new UserInfoDTO(user.get().getFirstName(), user.get().getLastName(),
+					user.get().getEmail(), user.get().getBirthday(), user.get().getLogin(), user.get().getPhone(),
+					listCarDTO, user.get().getCreatedAt(), user.get().getLastLogin());
 
 			return userInfoDTO;
 		}
@@ -129,13 +128,13 @@ public class UserService {
 	@Transactional
 	public UserDTO insertUser(SaveUserDTO saveUserDTO) {
 		List<Long> idsCars = new ArrayList<Long>();
-		
+
 		User user = new User(saveUserDTO.getFirstName(), saveUserDTO.getLastName(), saveUserDTO.getEmail(),
 				saveUserDTO.getBirthday(), saveUserDTO.getLogin(), passwordEncoder.encode(saveUserDTO.getPassword()),
 				saveUserDTO.getPhone(), idsCars);
 
 		validateInsertUpdateUser(user);
-		
+
 		for (CarDTO carDTO : saveUserDTO.getCars()) {
 			SaveUpdateCarDTO newCar = new SaveUpdateCarDTO(carDTO.getYear(), carDTO.getLicensePlate(),
 					carDTO.getModel(), carDTO.getColor());
@@ -190,7 +189,7 @@ public class UserService {
 			for (Long idCar : user.get().getCars()) {
 				carProxy.deleteCar(idCar);
 			}
-			
+
 			userRepository.delete(user.get());
 		}
 	}
@@ -215,10 +214,10 @@ public class UserService {
 			userRepository.save(user.get());
 		}
 	}
-	
+
 	/**
 	 * Método para adicionar um carro no usuario.
-	 *  
+	 * 
 	 * @autor Carlos Pereira
 	 * 
 	 * @param id
@@ -232,10 +231,10 @@ public class UserService {
 			userRepository.save(user.get());
 		}
 	}
-	
+
 	/**
 	 * Método para deletar um carro no usuario.
-	 *  
+	 * 
 	 * @autor Carlos Pereira
 	 * 
 	 * @param id
@@ -260,9 +259,9 @@ public class UserService {
 	 */
 	private UserDTO convertUserToUserDTO(User user) {
 		List<CarDTO> listCarDTO = new ArrayList<CarDTO>();
-		
-		if(user.getCars() != null && !user.getCars().isEmpty()) {
-			listCarDTO = carProxy.findAllCarsbyIds(user.getCars());			
+
+		if (user.getCars() != null && !user.getCars().isEmpty()) {
+			listCarDTO = carProxy.findAllCarsbyIds(user.getCars());
 		}
 
 		UserDTO userDTO = new UserDTO(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(),
