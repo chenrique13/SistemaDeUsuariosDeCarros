@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import com.pitang.common.dtos.cars.CarDTO;
+import com.pitang.common.dtos.cars.SaveUpdateCarDTO;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -33,15 +33,15 @@ public class SaveUserDTO  implements Serializable{
 	@Schema(description = "Telefone do usuário.", example = "81912345678")
 	private String phone;
 
-	@Schema(description = "Lista de carros do usuário", implementation = CarDTO.class)
-	private List<CarDTO> cars;
+	@Schema(description = "Lista de carros do usuário", implementation = SaveUpdateCarDTO.class)
+	private List<SaveUpdateCarDTO> cars;
 
 	public SaveUserDTO() {
 		
 	}
 	
 	public SaveUserDTO(String firstName, String lastName, String email, Date birthday, String login, String password,
-			String phone, List<CarDTO> cars) {
+			String phone, List<SaveUpdateCarDTO> cars) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
@@ -80,7 +80,7 @@ public class SaveUserDTO  implements Serializable{
 		return phone;
 	}
 
-	public List<CarDTO> getCars() {
+	public List<SaveUpdateCarDTO> getCars() {
 		return cars;
 	}
 

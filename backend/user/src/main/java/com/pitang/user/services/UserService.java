@@ -135,9 +135,9 @@ public class UserService {
 
 		validateInsertUpdateUser(user);
 
-		for (CarDTO carDTO : saveUserDTO.getCars()) {
-			SaveUpdateCarDTO newCar = new SaveUpdateCarDTO(carDTO.getYear(), carDTO.getLicensePlate(),
-					carDTO.getModel(), carDTO.getColor());
+		for (SaveUpdateCarDTO saveUpdateCarDTO : saveUserDTO.getCars()) {
+			SaveUpdateCarDTO newCar = new SaveUpdateCarDTO(saveUpdateCarDTO.getYear(), saveUpdateCarDTO.getLicensePlate(),
+					saveUpdateCarDTO.getModel(), saveUpdateCarDTO.getColor());
 			idsCars.add(carProxy.insertCar(newCar).getBody().getId());
 		}
 
