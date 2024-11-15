@@ -30,6 +30,11 @@ public class RoutesCommon {
 		addRoute("/api/users", EnumMicroservice.USERS, List.of(HttpMethod.GET, HttpMethod.POST), PUBLIC_ROUTES);
 		addRoute("/api/users/{id}", EnumMicroservice.USERS, List.of(HttpMethod.GET, HttpMethod.PUT, HttpMethod.DELETE),
 				PUBLIC_ROUTES);
+		addRoute("swagger-ui/**", EnumMicroservice.USERS, List.of(HttpMethod.GET), PUBLIC_ROUTES);
+		addRoute("v3/api-docs/**", EnumMicroservice.CARS, List.of(HttpMethod.GET), PUBLIC_ROUTES);
+		
+	
+		
 //		addRoute("/api/users/login/{login}", EnumMicroservice.USERS, List.of(HttpMethod.GET), PUBLIC_ROUTES);
 
 		PRIVATE_ROUTES = new HashMap<>();

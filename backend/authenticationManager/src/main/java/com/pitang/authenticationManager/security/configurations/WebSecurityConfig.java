@@ -60,6 +60,8 @@ public class WebSecurityConfig {
 		http.authorizeExchange(spec -> {
             spec.pathMatchers(HttpMethod.OPTIONS).permitAll();
             
+            spec.pathMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll();
+            
 			RoutesCommon.PUBLIC_ROUTES.forEach((route, methodsMap) -> {
 				methodsMap.forEach((service, methods) -> {
 					for (HttpMethod method : methods) {
