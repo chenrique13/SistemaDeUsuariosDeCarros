@@ -17,7 +17,7 @@ import com.pitang.user.entities.User;
 public interface UserRepository extends JpaRepository<User, Long> {
 
 	/**
-	 * Realiza uma busca por e-mail de usuário no banco de dados 
+	 * Realiza uma busca por e-mail de usuário no banco de dados.
 	 * 
 	 * @param email Atributo que representa o e-mail do usuário.
 	 * @return Um {@link User}.
@@ -25,7 +25,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	Optional<User> findByEmail(String email);
 	
 	/**
-	 * Realiza uma busca por login de usuário no banco de dados 
+	 * Realiza uma busca por login de usuário no banco de dados .
 	 * 
 	 * @param login Atributo que representa o login do usuário.
 	 * @return Um {@link User}.

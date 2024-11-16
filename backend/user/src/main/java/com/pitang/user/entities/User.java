@@ -121,7 +121,7 @@ public class User implements Serializable {
 	 * @param login Atributo que representa o login do usuário.
 	 * @param password Atributo que representa a senha do usuário.
 	 * @param phone Atributo que representa o telefone do usuário.
-	 * @param cars Atributo que representa a lista de carros do usuário.
+	 * @param cars Atributo que representa a lista de ids de carros do usuário.
 	 */
 	public User(Long id, String firstName, String lastName, String email, Date birthday, String login, String password,
 			String phone, List<Long> cars) {
@@ -139,8 +139,8 @@ public class User implements Serializable {
 	/**
 	 * Construtor com todos os argumentos sem o id.
 	 * 
-	 * @param firstName Atributo que representa o Nome do usuário.
-	 * @param lastName Atributo que representa o Sobrenome do usuário.
+	 * @param firstName Atributo que representa o nome do usuário.
+	 * @param lastName Atributo que representa o sobrenome do usuário.
 	 * @param email Atributo que representa o e-mail do usuário.
 	 * @param birthday Atributo que representa a data de nascimento do usuário.
 	 * @param login Atributo que representa o login do usuário.
