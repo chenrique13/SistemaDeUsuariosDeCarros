@@ -35,10 +35,10 @@ public class CarService {
 	 * O método obtem todos os carros cadastrados do usuario no banco de dados a
 	 * partir no login do usuario, se existir. {@link Car}
 	 *
-	 * @autor Carlos Pereira
+	 * @author Carlos Pereira
 	 * 
-	 * @param login
-	 * @return {@link CarDTO}
+	 * @param login Atributo que representa o login do usuário.
+	 * @return {@link CarDTO} Lista de {@link CarDTO}.
 	 */
 	public List<CarDTO> findAllCarsByUserLogin(String login) {
 		List<CarDTO> listCarsDto = new ArrayList<CarDTO>();
@@ -61,10 +61,10 @@ public class CarService {
 	 * O método obtem todos os carros cadastrados do usuario no banco de dados a
 	 * partir no login do usuario, se existir. {@link Car}
 	 *
-	 * @autor Carlos Pereira
+	 * @author Carlos Pereira
 	 * 
-	 * @param listIdsCars
-	 * @return {@link CarDTO}
+	 * @param listIdsCars Lista de ids dos carros.
+	 * @return Uma Lista de {@link CarDTO}.
 	 */
 	public List<CarDTO> findAllCarsByIds(List<Long> listIdsCars) {
 		List<CarDTO> listCarsDto = new ArrayList<CarDTO>();
@@ -81,11 +81,11 @@ public class CarService {
 	 * O método obtem um carro cadastrado do usuario no banco de dados a
 	 * partir no login do usuario, se existir. {@link Car}
 	 *
-	 * @autor Carlos Pereira
+	 * @author Carlos Pereira
 	 *
-	 * @param id
-	 * @param login
-	 * @return {@link CarDTO}
+	 * @param id Atributo que representa o identificador do carro.
+	 * @param login Atributo que representa o login do usuário.
+	 * @return Um {@link CarDTO} .
 	 */
 	public CarDTO findCarById(Long id, String login) {
 		Optional<Car> car = carRepository.findById(id);
@@ -106,11 +106,11 @@ public class CarService {
 	 * Método usado para inserir um carro do usuario no banco de dados a partir no
 	 * login do usuario. {@link Car}
 	 *
-	 * @autor Carlos Pereira
+	 * @author Carlos Pereira
 	 *
-	 * @param newCar
-	 * @param login
-	 * @return {@link CarDTO}
+	 * @param newCar Objeto que representa um carro.
+	 * @param login Atributo que representa o login do usuário.
+	 * @return Um {@link CarDTO}.
 	 */
 	@Transactional
 	public CarDTO insertCar(SaveUpdateCarDTO newCar, String login) {
@@ -130,12 +130,12 @@ public class CarService {
 	 * Metodo usado para atualizar um carro do usuario a partir do login, se
 	 * existir. {@link Car}
 	 *
-	 * @autor Carlos Pereira
+	 * @author Carlos Pereira
 	 *
-	 * @param id
-	 * @param updateCar
-	 * @param login
-	 * @return {@link CarDTO}
+	 * @param id Atributo que representa o identificador do carro.
+	 * @param updateCar Objeto que representa um carro.
+	 * @param login Atributo que representa o login do usuário.
+	 * @return Um {@link CarDTO}.
 	 */
 	public CarDTO updateCar(Long id, SaveUpdateCarDTO updateCar, String login) {
 		Optional<Car> car = carRepository.findById(id);
@@ -163,10 +163,10 @@ public class CarService {
 	 * Método usado para excluir por id um carro do usuario no banco de dados a
 	 * partir no login do usuario, se existir. {@link Car}
 	 *
-	 * @autor Carlos Pereira
+	 * @author Carlos Pereira
 	 *
-	 * @param id
-	 * @param login
+	 * @param id Atributo que representa o identificador do carro.
+	 * @param login Atributo que representa o login do usuário.
 	 */
 	public void deleteCar(Long id, String login) {
 		Optional<Car> car = carRepository.findById(id);
@@ -190,8 +190,8 @@ public class CarService {
 	/**
 	 * Método usado para converter um {@link Car} em um {@link CarDTO}.
 	 * 
-	 * @param car
-	 * @return {@link CarDTO}
+	 * @param car Um {@link Car} pra ser convertido em {@link CarDTO}.
+	 * @return Um {@link CarDTO}
 	 */
 	private CarDTO convertCarToCarDTO(Car car) {
 		if (car != null) {
@@ -205,7 +205,7 @@ public class CarService {
 	/**
 	 * Método usado para validar inserts e updates do carro.
 	 * 
-	 * @param car
+	 * @param car Objeto que representa um carro {@link Car}.
 	 */
 	private void validateInsertUpdateCar(Car car) {
 		if (!car.isValid()) {

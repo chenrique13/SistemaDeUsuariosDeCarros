@@ -49,7 +49,7 @@ public class CarController implements CarProxy {
 	 *
 	 * @author Carlos Pereira
 	 *
-	 * @return ResponseEntity<List<{@link CarDTO}>>
+	 * @return O {@link ResponseEntity} da lista de {@link CarDTO}.
 	 */
 	@Override
 	@Operation(summary = "Find All Cars", description = "Busca todos os carros do usuário logado.")
@@ -62,8 +62,8 @@ public class CarController implements CarProxy {
 	 *
 	 * @author Carlos Pereira
 	 *
-	 * @param id
-	 * @return ResponseEntity<<{@link CarDTO}>>
+	 * @param id Atributo que representa o identificador do usuário.
+	 * @return O {@link ResponseEntity} de um {@link CarDTO}.
 	 */
 	@Override
 	@Operation(summary = "Find Car By Id", description = "Busca um carro do usuário logado por id.")
@@ -78,8 +78,8 @@ public class CarController implements CarProxy {
 	 *
 	 * @author Carlos Pereira
 	 *
-	 * @param newcar
-	 * @return ResponseEntity< {@link Car} >
+	 * @param newcar Objeto que representa o carro.
+	 * @return O {@link ResponseEntity} de um {@link CarDTO}.
 	 */
 	@Override
 	@Operation(summary = "Insert Car", description = "Insere um carro no sistema.")
@@ -97,9 +97,9 @@ public class CarController implements CarProxy {
 	 *
 	 * @author Carlos Pereira
 	 *
-	 * @param id
-	 * @param updateCarDTO
-	 * @return ResponseEntity< {@link Car} >
+	 * @param id Atributo que representa o identificador do usuário.
+	 * @param updateCarDTO Objeto que representa o carro.
+	 * @return O {@link ResponseEntity} de um {@link CarDTO}.
 	 */
 	@Override
 	@Operation(summary = "Update Car", description = "Atualiza um carro no sistema.")
@@ -121,8 +121,7 @@ public class CarController implements CarProxy {
 	 *
 	 * @author Carlos Pereira
 	 *
-	 * @param id
-	 * @return ResponseEntity< {@link Void} >
+	 * @param id Atributo que representa o identificador do usuário.
 	 */
 	@Override
 	@Operation(summary = "Delete Car", description = "Deleta um carro no sistema.")
@@ -140,8 +139,7 @@ public class CarController implements CarProxy {
 	 *
 	 * @author Carlos Pereira
 	 *
-	 * @param id
-	 * @return ResponseEntity< {@link Void} >
+	 * @return O {@link ResponseEntity} da lista de {@link CarDTO}.
 	 */
 	@Override
 	@Hidden

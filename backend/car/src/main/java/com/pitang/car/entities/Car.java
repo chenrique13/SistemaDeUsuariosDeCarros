@@ -63,12 +63,11 @@ public class Car  implements Serializable{
 	/**
 	 * Construtor com todos os argumentos.
 	 * 
-	 * @param id
-	 * @param year
-	 * @param licensePlate
-	 * @param model
-	 * @param color
-	 * @param user
+	 * @param id Atributo que representa o identificador do carro.
+	 * @param year Atributo que representa o ano de fabricação do carro.
+	 * @param licensePlate Atributo que representa a placa do carro.
+	 * @param model Atributo que representa o modelo do carro.
+	 * @param color Atributo que representa a cor do carro.
 	 */
 	public Car(Long id, int year, String licensePlate, String model, String color) {
 		this.id = id;
@@ -81,7 +80,7 @@ public class Car  implements Serializable{
 	/**
 	 * Obtem o id do carro.
 	 * 
-	 * @return Long
+	 * @return id do carro.
 	 */
 	public Long getId() {
 		return id;
@@ -90,7 +89,7 @@ public class Car  implements Serializable{
 	/**
 	 * Define o id do carro.
 	 * 
-	 * @param id
+	 * @param id O id do carro.
 	 */
 	public void setId(Long id) {
 		this.id = id;
@@ -99,7 +98,7 @@ public class Car  implements Serializable{
 	/**
 	 * Obtem o ano de fabricacao do carro.
 	 * 
-	 * @return int
+	 * @return int O ano de fabricacao do carro.
 	 */
 	public int getYear() {
 		return year;
@@ -107,7 +106,7 @@ public class Car  implements Serializable{
 
 	/**
 	 * Define o ano de fabricacao do carro.
-	 * @param year
+	 * @param year O ano de fabricacao do carro.
 	 */
 	public void setYear(int year) {
 		this.year = year;
@@ -116,7 +115,7 @@ public class Car  implements Serializable{
 	/**
 	 * Obtem a placa do carro.
 	 * 
-	 * @return String
+	 * @return A placa do carro.
 	 */
 	public String getLicensePlate() {
 		return licensePlate;
@@ -125,7 +124,7 @@ public class Car  implements Serializable{
 	/**
 	 * Define a placa do carro.
 	 * 
-	 * @param licensePlate
+	 * @param licensePlate A placa do carro.
 	 */
 	public void setLicensePlate(String licensePlate) {
 		this.licensePlate = licensePlate;
@@ -134,7 +133,7 @@ public class Car  implements Serializable{
 	/**
 	 * Obtem o modelo do carro.
 	 * 
-	 * @return String
+	 * @return O modelo do carro.
 	 */
 	public String getModel() {
 		return model;
@@ -143,7 +142,7 @@ public class Car  implements Serializable{
 	/**
 	 * Define o modelo do carro.
 	 * 
-	 * @param model
+	 * @param model O modelo do carro.
 	 */
 	public void setModel(String model) {
 		this.model = model;
@@ -152,7 +151,7 @@ public class Car  implements Serializable{
 	/**
 	 * Obtem a cor predominante do carro.
 	 * 
-	 * @return String
+	 * @return A cor predominante do carro.
 	 */
 	public String getColor() {
 		return color;
@@ -161,12 +160,17 @@ public class Car  implements Serializable{
 	/**
 	 * Define a cor predominante do carro.
 	 * 
-	 * @param color
+	 * @param color A cor predominante do carro.
 	 */
 	public void setColor(String color) {
 		this.color = color;
 	}
 	
+	/**
+	 * Checa se o carro é válido.
+	 * 
+	 * @return Se o carro é válido.
+	 */
 	public boolean isValid() {
 		return licensePlate != null && !licensePlate.trim().isEmpty() &&
 				model != null && !model.trim().isEmpty() && 
@@ -174,9 +178,9 @@ public class Car  implements Serializable{
 	}
 
 	/**
-	 * Gera um hash de um carro a partir do seu id e licensePlate.
+	 * Gera um hash de um carro a partir do seu id.
 	 * 
-	 * @return int
+	 * @return um hash de um carro a partir do seu id.
 	 */
 	@Override
 	public int hashCode() {
@@ -184,10 +188,10 @@ public class Car  implements Serializable{
 	}
 
 	/**
-	 * Verifica se um carro e igual ao outro pelo id e licensePlate.
+	 * Verifica se um carro e igual ao outro pelo id.
 	 * 
-	 * @param obj
-	 * @return boolean
+	 * @param obj Objeto a ser comparado.
+	 * @return boolean Se um carro e igual ao outro pelo id.
 	 */
 	@Override
 	public boolean equals(Object obj) {
@@ -204,7 +208,7 @@ public class Car  implements Serializable{
 	/**
 	 * Retorna uma representacao em texto do carro.
 	 * 
-	 * @return String
+	 * @return String A representacao em texto do carro.
 	 */
 	@Override
 	public String toString() {

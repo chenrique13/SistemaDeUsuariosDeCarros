@@ -14,6 +14,12 @@ import com.pitang.car.entities.Car;
 @Repository
 public interface CarRepository extends JpaRepository<Car, Long> {
 
+	/**
+	 * Realiza uma busca por placa de carro no banco de dados.
+	 * 
+	 * @param licensePlate Atributo que representa a palca do carro.
+	 * @return Um {@link Car}.
+	 */
 	Optional<Car> findByLicensePlate(String licensePlate);
 
 }
