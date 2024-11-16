@@ -45,8 +45,10 @@ public class JwtAuthenticationEntryPoint implements WebFilter {
 	/**
 	 * Construtor com todos os argumentos.
 	 * 
-	 * @param jwtComumServico
-	 * @param userProxy
+	 * @param jwtUtils  Objeto jwt comuns para auxiliar no funcionamento de
+	 *                  segurança e autenticação.
+	 * @param userProxy Interface {@link UserProxy} para fornecer operações CRUD de
+	 *                  usuários.
 	 */
 	public JwtAuthenticationEntryPoint(JwtUtils jwtUtils, UserProxy userProxy) {
 		this.jwtUtils = jwtUtils;
@@ -60,9 +62,11 @@ public class JwtAuthenticationEntryPoint implements WebFilter {
 	 * 
 	 * @author Carlos Pereira
 	 * 
-	 * @param exchange
-	 * @param chain
-	 * @return Mono Void
+	 * @param exchange {@link ServerWebExchange} para coletar a rota, o método http
+	 *                 para fazer a autenticação.
+	 * @param chain    {@link WebFilterChain} que permite interceptar e manipular as
+	 *                 requisições e respostas antes que elas sejam processadas
+	 *                 pelos controladores.
 	 */
 	@Override
 	public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
@@ -118,11 +122,13 @@ public class JwtAuthenticationEntryPoint implements WebFilter {
 	 *
 	 * @author Carlos Pereira
 	 *
-	 * @param exchange
-	 * @param status
-	 * @param message
-	 * @param erroCode
-	 * @return Mono Void
+	 * @param exchange {@link ServerWebExchange} que fornece acesso aos detalhes da
+	 *                 requisição.
+	 * @param status   {@link HttpStatus} do erro.
+	 * @param message  Mensagem de erro.
+	 * @param erroCode Código do erro.
+	 * @return Mono Void Sinalização que a operação foi concluída sem um retorno de
+	 *         dados.
 	 */
 	private Mono<Void> createStandardError(ServerWebExchange exchange, HttpStatus status, String message,
 			int erroCode) {

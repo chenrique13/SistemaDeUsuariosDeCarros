@@ -1,0 +1,4 @@
+com.pitang.authenticationManager
+com.pitang.authenticationManager.controller
+com.pitang.authenticationManager.security.configurations
+com.pitang.authenticationManager.security.jwt
