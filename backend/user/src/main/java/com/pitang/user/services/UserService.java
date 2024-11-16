@@ -42,7 +42,7 @@ public class UserService {
 	 * O método obtem todos os {@link User} cadastratos no banco de dados, se
 	 * existir.
 	 *
-	 * @autor Carlos Pereira
+	 * @author Carlos Pereira
 	 *
 	 * @return {@link UserDTO}
 	 */
@@ -61,9 +61,9 @@ public class UserService {
 	 * O método obtem um {@link User} por id cadastrato no banco de dados, se
 	 * existir.
 	 *
-	 * @autor Carlos Pereira
+	 * @author Carlos Pereira
 	 *
-	 * @param id
+	 * @param id Atributo que representa o identificador do usuário.
 	 * @return {@link UserDTO}
 	 */
 	public UserDTO findUserById(Long id) {
@@ -79,9 +79,9 @@ public class UserService {
 	/**
 	 * O método obtem um {@link User} por login cadastrato no banco de dados.
 	 *
-	 * @autor Carlos Pereira
+	 * @author Carlos Pereira
 	 *
-	 * @param id
+	 * @param login Atributo que representa o login do usuário.
 	 * @return {@link UserDTO}
 	 */
 	public UserDTO findUserByLogin(String login) {
@@ -97,9 +97,9 @@ public class UserService {
 	/**
 	 * O método obtem um {@link User} por login cadastrato no banco de dados.
 	 *
-	 * @autor Carlos Pereira
+	 * @author Carlos Pereira
 	 *
-	 * @param login
+	 * @param login Atributo que representa o login do usuário.
 	 * @return {@link UserInfoDTO}
 	 */
 	public UserInfoDTO findMe(String login) {
@@ -120,9 +120,9 @@ public class UserService {
 	/**
 	 * Método usado para inserir um {@link User} no banco de dados.
 	 *
-	 * @autor Carlos Pereira
+	 * @author Carlos Pereira
 	 *
-	 * @param saveUserDTO
+	 * @param saveUserDTO Objeto que representa do usuário.
 	 * @return {@link UserDTO}
 	 */
 	@Transactional
@@ -147,10 +147,10 @@ public class UserService {
 	/**
 	 * Metodo usado para atualizar um {@link User}, se existir.
 	 *
-	 * @autor Carlos Pereira
+	 * @author Carlos Pereira
 	 *
-	 * @param idPedido
-	 * @param usuario
+	 * @param id Atributo que representa o identificador do usuário.
+	 * @param updateUserDTO Objeto que representa do usuário.
 	 * @return {@link UserDTO}
 	 */
 	public UserDTO updateUser(Long id, UpdateUserDTO updateUserDTO) {
@@ -177,9 +177,9 @@ public class UserService {
 	 * Método usado para excluir por id um {@link User} no banco de dados, se
 	 * existir.
 	 *
-	 * @autor Carlos Pereira
+	 * @author Carlos Pereira
 	 *
-	 * @param id
+	 * @param id Atributo que representa o identificador do usuário.
 	 */
 	@Transactional
 	public void deleteUser(Long id) {
@@ -198,9 +198,9 @@ public class UserService {
 	 * Método usado para atualizar as datas que o usuario realizou o login no banco
 	 * de dados, se existir.
 	 *
-	 * @autor Carlos Pereira
+	 * @author Carlos Pereira
 	 *
-	 * @param id
+	 * @param id Atributo que representa o identificador do usuário.
 	 */
 	public void updateLastLoginUser(Long id) {
 		Optional<User> user = userRepository.findById(id);
@@ -218,10 +218,10 @@ public class UserService {
 	/**
 	 * Método para adicionar um carro no usuario.
 	 * 
-	 * @autor Carlos Pereira
+	 * @author Carlos Pereira
 	 * 
-	 * @param id
-	 * @param login
+	 * @param id Atributo que representa o identificador do carro.
+	 * @param login Atributo que representa o login do usuário.
 	 */
 	public void addCarToUser(Long id, String login) {
 		Optional<User> user = userRepository.findByLogin(login);
@@ -235,10 +235,10 @@ public class UserService {
 	/**
 	 * Método para deletar um carro no usuario.
 	 * 
-	 * @autor Carlos Pereira
+	 * @author Carlos Pereira
 	 * 
-	 * @param id
-	 * @param login
+	 * @param id Atributo que representa o identificador do carro.
+	 * @param login Atributo que representa o login do usuário.
 	 */
 	public void deleteCarToUser(Long id, String login) {
 		Optional<User> user = userRepository.findByLogin(login);
@@ -252,7 +252,7 @@ public class UserService {
 	/**
 	 * Método usado para converter um {@link User} em um {@link UserDTO}.
 	 * 
-	 * @autor Carlos Pereira
+	 * @author Carlos Pereira
 	 * 
 	 * @param user
 	 * @return {@link UserDTO}

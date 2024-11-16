@@ -31,7 +31,7 @@ public class SecurityService {
 	 *
 	 * @author Carlos Pereira
 	 *
-	 * @param signinDTO
+	 * @param signinDTO Objeto que representa o DTO do signin.
 	 * @return String
 	 */
 	public String signinToken(SigninDTO signinDTO) {

@@ -23,6 +23,14 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.servlet.http.HttpServletRequest;
 
+/**
+ * Controlador responsável por gerenciar as requisições relacionadas aos carros.
+ * Implementa a interface {@link CarProxy} para fornecer operações CRUD de carros.
+ * 
+ * Este controlador lida com endpoints relacionados a operações de criação, 
+ * leitura, atualização e exclusão de carros no sistema.
+ * 
+ */
 @RestController
 @RequestMapping(path = "/")
 public class CarController implements CarProxy {
@@ -39,7 +47,7 @@ public class CarController implements CarProxy {
 	/**
 	 * Endpoint responsavel por buscar todos os carros. {@link Car}
 	 *
-	 * @autor Carlos Pereira
+	 * @author Carlos Pereira
 	 *
 	 * @return ResponseEntity<List<{@link CarDTO}>>
 	 */
@@ -52,7 +60,7 @@ public class CarController implements CarProxy {
 	/**
 	 * Endpoint responsavel por buscar um carro por id. {@link Car}
 	 *
-	 * @autor Carlos Pereira
+	 * @author Carlos Pereira
 	 *
 	 * @param id
 	 * @return ResponseEntity<<{@link CarDTO}>>
@@ -68,7 +76,7 @@ public class CarController implements CarProxy {
 	/**
 	 * EndPoint responsavel por cadastrar um novo carro no sistema. {@link Car}
 	 *
-	 * @autor Carlos Pereira
+	 * @author Carlos Pereira
 	 *
 	 * @param newcar
 	 * @return ResponseEntity< {@link Car} >
@@ -87,7 +95,7 @@ public class CarController implements CarProxy {
 	/**
 	 * EndPoint responsavel por atualizar um carro do sistema. {@link Car}
 	 *
-	 * @autor Carlos Pereira
+	 * @author Carlos Pereira
 	 *
 	 * @param id
 	 * @param updateCarDTO
@@ -111,7 +119,7 @@ public class CarController implements CarProxy {
 	/**
 	 * EndPoint responsavel por excluir um carro do sistema. {@link Car}
 	 *
-	 * @autor Carlos Pereira
+	 * @author Carlos Pereira
 	 *
 	 * @param id
 	 * @return ResponseEntity< {@link Void} >
@@ -130,7 +138,7 @@ public class CarController implements CarProxy {
 	 * EndPoint interno responsavel por buscar uma lista de carro do sistema.
 	 * {@link Car}
 	 *
-	 * @autor Carlos Pereira
+	 * @author Carlos Pereira
 	 *
 	 * @param id
 	 * @return ResponseEntity< {@link Void} >

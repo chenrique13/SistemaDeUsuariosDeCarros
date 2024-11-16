@@ -23,6 +23,9 @@ import com.pitang.common.proxies.CarProxy;
 import com.pitang.user.entities.User;
 import com.pitang.user.repositories.UserRepository;
 
+/**
+ * Classe de implementação dos testes do {@link UserService}.
+ */
 public class UserServiceTest {
 	@Mock
 	private UserRepository userRepository;
@@ -35,8 +38,11 @@ public class UserServiceTest {
 
 	private List<User> mockUsers;
 
+	/**
+	 * Inicializa os objetos necessarios antes de cada teste.
+	 */
 	@BeforeEach
-	void setUp() {
+	void runBeforeEachTest() {
 		MockitoAnnotations.openMocks(this);
 
 		List<Long> carros1 = Arrays.asList(1L, 2L);

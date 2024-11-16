@@ -24,6 +24,9 @@ import com.pitang.common.dtos.users.UserDTO;
 import com.pitang.common.exceptions.CustomException;
 import com.pitang.common.utils.JwtUtils;
 
+/**
+ * Classe de implementação dos testes do {@link SecurityService}.
+ */
 public class SecurityServiceTest {
 
 	@Mock
@@ -41,8 +44,11 @@ public class SecurityServiceTest {
 	private SigninDTO signinDTO;
 	private UserDTO userDTO;
 
+	/**
+	 * Inicializa os objetos necessarios antes de cada teste.
+	 */
 	@BeforeEach
-	public void setUp() {
+	void runBeforeEachTest() {
 		MockitoAnnotations.openMocks(this);
 		signinDTO = new SigninDTO("carlosPereira", "password123");
 

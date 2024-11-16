@@ -29,6 +29,14 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.servlet.http.HttpServletRequest;
 
+/**
+ * Controlador responsável por gerenciar as requisições relacionadas aos usuários.
+ * Implementa a interface {@link UserProxy} para fornecer operações CRUD de usuários.
+ * 
+ * Este controlador lida com endpoints relacionados a operações de criação, 
+ * leitura, atualização e exclusão de usuários no sistema.
+ * 
+ */
 @RestController
 @RequestMapping(path = "/")
 public class UserController implements UserProxy{
@@ -48,9 +56,9 @@ public class UserController implements UserProxy{
 	/**
 	 * Endpoint responsavel por buscar todos os usuarios. {@link User}
 	 *
-	 * @autor Carlos Pereira
+	 * @author Carlos Pereira
 	 *
-	 * @return ResponseEntity<List<{@link UserDTO}>>
+	 * @return O {@link ResponseEntity} da lista de {@link UserDTO}.
 	 */
 	@Override
 	@Operation(summary = "Find All Users", description = "Buscar todos os usuários e seus carros.")
@@ -63,10 +71,10 @@ public class UserController implements UserProxy{
 	/**
 	 * Endpoint responsavel por buscar um usuario por id. {@link User}
 	 *
-	 * @autor Carlos Pereira
+	 * @author Carlos Pereira
 	 *
-	 * @param id
-	 * @return ResponseEntity<<{@link UserDTO}>>
+	 * @param id Atributo que representa o identificador do usuário.
+	 * @return O {@link ResponseEntity} de um {@link UserDTO}.
 	 */
 	@Override
 	@Operation(summary = "Find User By Id", description = "Busca por id o usuário e seus carros.")
@@ -85,10 +93,10 @@ public class UserController implements UserProxy{
 	/**
 	 * EndPoint responsavel por cadastrar um novo usuario no sistema. {@link User}
 	 *
-	 * @autor Carlos Pereira
+	 * @author Carlos Pereira
 	 *
-	 * @param novoCar
-	 * @return ResponseEntity< {@link UserDTO} >
+	 * @param saveUserDTO Objeto que representa o usuário.
+	 * @return O {@link ResponseEntity} de um {@link UserDTO}.
 	 */
 	@Override
 	@Operation(summary = "Insert User", description = "Insere um usuário com seus carros no sistema.")
@@ -104,11 +112,11 @@ public class UserController implements UserProxy{
 	/**
 	 * EndPoint responsavel por atualizar um usuario do sistema. {@link User}
 	 *
-	 * @autor Carlos Pereira
+	 * @author Carlos Pereira
 	 *
-	 * @param id
-	 * @param user
-	 * @return ResponseEntity< {@link UserDTO} >
+	 * @param id Atributo que representa o identificador do usuário.
+	 * @param updateUserDTO Objeto que representa o usuário.
+	 * @return O {@link ResponseEntity} de um {@link UserDTO}.
 	 */
 	@Override
 	@Operation(summary = "Update User", description = "Atualiza um usuário no sistema.")
@@ -129,10 +137,9 @@ public class UserController implements UserProxy{
 	/**
 	 * EndPoint responsavel por excluir um usuario do sistema. {@link User}
 	 *
-	 * @autor Carlos Pereira
+	 * @author Carlos Pereira
 	 *
-	 * @param id
-	 * @return ResponseEntity< {@link Void} >
+	 * @param id Atributo que representa o identificador do usuário.
 	 */
 	@Override
 	@Operation(summary = "Delete User", description = "Deleta um usuário no sistema.")
@@ -147,9 +154,9 @@ public class UserController implements UserProxy{
 	/**
 	 * Endpoint responsavel por buscar informações do usuario logado. {@link User}
 	 *
-	 * @autor Carlos Pereira
+	 * @author Carlos Pereira
 	 *
-	 * @return ResponseEntity<<{@link UserInfoDTO}>>
+	 * @return O {@link ResponseEntity} de um {@link UserInfoDTO}.
 	 */
 	@Override
 	@Operation(summary = "Finde Me", description = "Busca informações do o usuário logado, seus carros, data de criação e de último login.")
@@ -164,8 +171,7 @@ public class UserController implements UserProxy{
 	 *
 	 * @author Carlos Pereira
 	 *
-	 * @param credenciaisDTO
-	 * @return ResponseEntity Void
+	 * @param signinDTO Objeto que representa o DTO do signin.
 	 */
 	@Override
 	@Operation(summary = "Signin User", description = "Faz a autenticação do usuário no sistema com a geração do token JWT.")
@@ -186,7 +192,7 @@ public class UserController implements UserProxy{
 	/**
 	 * Endpoint responsavel por buscar o usuario por login. {@link User}
 	 *
-	 * @autor Carlos Pereira
+	 * @author Carlos Pereira
 	 *
 	 * @return {@link UserDTO}
 	 */
@@ -201,8 +207,8 @@ public class UserController implements UserProxy{
 	 *
 	 * @author Carlos Pereira
 	 *
-	 * @param id
-	 * @param login
+	 * @param id Atributo que representa o identificador do carro.
+	 * @param login Atributo que representa o login do usuário.
 	 */
 	@Override
 	@Hidden
@@ -215,8 +221,8 @@ public class UserController implements UserProxy{
 	 *
 	 * @author Carlos Pereira
 	 *
-	 * @param id
-	 * @param login
+	 * @param id Atributo que representa o identificador do carro.
+	 * @param login Atributo que representa o login do usuário.
 	 */
 	@Override
 	@Hidden

@@ -19,7 +19,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
 
 /**
- * Classe representando um usuario do sistema de usuarios de carros.
+ * Classe representando um usuário do sistema de usuários de carros.
  * 
  * @author Carlos Pereira
  */
@@ -30,7 +30,7 @@ public class User implements Serializable {
 	private static final long serialVersionUID = -6154520053495083870L;
 
 	/**
-	 * Identificador unico do Usuario.
+	 * Identificador unico do usuario.
 	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,49 +38,49 @@ public class User implements Serializable {
 	private Long id;
 
 	/**
-	 * Nome do usuario.
+	 * Nome do usuário.
 	 */
 	@Column
 	private String firstName;
 
 	/**
-	 * Sobrenome do usuario.
+	 * Sobrenome do usuário.
 	 */
 	@Column
 	private String lastName;
 
 	/**
-	 * E-mail do usuario
+	 * E-mail do usuário.
 	 */
 	@Column
 	private String email;
 
 	/**
-	 * Data de nascimento do usuario
+	 * Data de nascimento do usuário.
 	 */
 	@Column
 	private Date birthday;
 
 	/**
-	 * Login do usuario
+	 * Login do usuário.
 	 */
 	@Column
 	private String login;
 
 	/**
-	 * Senha do usuario
+	 * Senha do usuário.
 	 */
 	@Column
 	private String password;
 
 	/**
-	 * Telefone do usuario
+	 * Telefone do usuário.
 	 */
 	@Column
 	private String phone;
 
 	/**
-	 * Lista de ids dos carros do usuario
+	 * Lista de ids dos carros do usuário.
 	 */
     @ElementCollection
     @CollectionTable(name = "user_car", joinColumns = @JoinColumn(name = "user_id"))
@@ -88,18 +88,18 @@ public class User implements Serializable {
 	private List<Long> cars;
 
     /**
-     * A data que o usuario foi criado.
+     * A data que o usuário foi criado.
      */
     @CreationTimestamp
     private LocalDateTime createdAt;
     
     /**
-     * Data que o usuario fez login antes do login atual.
+     * Data que o usuário fez login antes do login atual.
      */
     private LocalDateTime lastLogin;
     
     /**
-     * Data do login atual do usuario.
+     * Data do login atual do usuário.
      */
     private LocalDateTime currentLogin;
     
@@ -113,15 +113,15 @@ public class User implements Serializable {
 	/**
 	 * Construtor com todos os argumentos.
 	 * 
-	 * @param id
-	 * @param firstName
-	 * @param lastName
-	 * @param email
-	 * @param birthday
-	 * @param login
-	 * @param password
-	 * @param phone
-	 * @param cars
+	 * @param id Atributo que representa o identificador do usuário.
+	 * @param firstName Atributo que representa o Nome do usuário.usuário.
+	 * @param lastName Atributo que representa o Sobrenome do usuário.
+	 * @param email Atributo que representa o e-mail do usuário.
+	 * @param birthday Atributo que representa a data de nascimento do usuário.
+	 * @param login Atributo que representa o login do usuário.
+	 * @param password Atributo que representa a senha do usuário.
+	 * @param phone Atributo que representa o telefone do usuário.
+	 * @param cars Atributo que representa a lista de carros do usuário.
 	 */
 	public User(Long id, String firstName, String lastName, String email, Date birthday, String login, String password,
 			String phone, List<Long> cars) {
@@ -139,14 +139,14 @@ public class User implements Serializable {
 	/**
 	 * Construtor com todos os argumentos sem o id.
 	 * 
-	 * @param firstName
-	 * @param lastName
-	 * @param email
-	 * @param birthday
-	 * @param login
-	 * @param password
-	 * @param phone
-	 * @param cars
+	 * @param firstName Atributo que representa o Nome do usuário.
+	 * @param lastName Atributo que representa o Sobrenome do usuário.
+	 * @param email Atributo que representa o e-mail do usuário.
+	 * @param birthday Atributo que representa a data de nascimento do usuário.
+	 * @param login Atributo que representa o login do usuário.
+	 * @param password Atributo que representa a senha do usuário.
+	 * @param phone Atributo que representa o telefone do usuário.
+	 * @param cars Atributo que representa a lista de carros do usuário.
 	 */
 	public User(String firstName, String lastName, String email, Date birthday, String login, String password,
 			String phone, List<Long> cars) {
@@ -161,224 +161,224 @@ public class User implements Serializable {
 	}
 
 	/**
-	 * Obtem o id do usuario.
+	 * Obtem o id do usuário.
 	 * 
-	 * @return Long
+	 * @return O id do usuário.
 	 */
 	public Long getId() {
 		return id;
 	}
 
 	/**
-	 * Define o id do usuario.
+	 * Define o id do usuário.
 	 * 
-	 * @param id
+	 * @param id Atributo que representa o identificador do usuário.
 	 */
 	public void setId(Long id) {
 		this.id = id;
 	}
 
 	/**
-	 * Obtem o nome do usuario.
+	 * Obtem o nome do usuário.
 	 * 
-	 * @return String
+	 * @return O nome do usuário
 	 */
 	public String getFirstName() {
 		return firstName;
 	}
 
 	/**
-	 * Define o nome do usuario.
+	 * Define o nome do usuário.
 	 * 
-	 * @param firstName
+	 * @param firstName Atributo que representa o nome do usuário.
 	 */
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
 
 	/**
-	 * Obtem o sobrenome do usuario.
+	 * Obtem o sobrenome do usuário.
 	 * 
-	 * @return String
+	 * @return O sobrenome do usuário.
 	 */
 	public String getLastName() {
 		return lastName;
 	}
 
 	/**
-	 * Define o sobrenome do usuario.
+	 * Define o sobrenome do usuário.
 	 * 
-	 * @param lastName
+	 * @param lastName Atributo que representa o sobrenome do usuário.
 	 */
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
 
 	/**
-	 * Obtem o email do usuario.
+	 * Obtem o e-mail do usuário.
 	 * 
-	 * @return String
+	 * @return O e-mail do usuário.
 	 */
 	public String getEmail() {
 		return email;
 	}
 
 	/**
-	 * Define o email do usuario.
+	 * Define o email do usuário.
 	 * 
-	 * @param email
+	 * @param email Atributo que representa o e-mail do usuário.
 	 */
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
 	/**
-	 * Obtem a data de nascimento do usuario.
+	 * Obtem a data de nascimento do usuário.
 	 * 
-	 * @return Date
+	 * @return A data de nascimento do usuário.
 	 */
 	public Date getBirthday() {
 		return birthday;
 	}
 
 	/**
-	 * Define a data de nascimento do usuario.
+	 * Define a data de nascimento do usuário.
 	 * 
-	 * @param birthday
+	 * @param birthday Atributo que representa a data de nascimento do usuário.
 	 */
 	public void setBirthday(Date birthday) {
 		this.birthday = birthday;
 	}
 
 	/**
-	 * Obtem o login do usuario.
+	 * Obtem o login do usuário.
 	 * 
-	 * @return String
+	 * @return o login do usuário.
 	 */
 	public String getLogin() {
 		return login;
 	}
 
 	/**
-	 * Define o login do usuario.
+	 * Define o login do usuário.
 	 * 
-	 * @param login
+	 * @param login Atributo que representa o login do usuário.
 	 */
 	public void setLogin(String login) {
 		this.login = login;
 	}
 
 	/**
-	 * Obtem a senha do usuario.
+	 * Obtem a senha do usuário.
 	 * 
-	 * @return String
+	 * @return A senha do usuário.
 	 */
 	public String getPassword() {
 		return password;
 	}
 
 	/**
-	 * Define a senha do usuario.
+	 * Define a senha do usuário.
 	 * 
-	 * @param password
+	 * @param password Atributo que representa a senha do usuário.
 	 */
 	public void setPassword(String password) {
 		this.password = password;
 	}
 
 	/**
-	 * Obtem o telefone do usuario.
+	 * Obtem o telefone do usuário.
 	 * 
-	 * @return String
+	 * @return O telefone do usuário.
 	 */
 	public String getPhone() {
 		return phone;
 	}
 
 	/**
-	 * Define o telefone do usuario.
-	 * @param phone
+	 * Define o telefone do usuário.
+	 * @param phone Atributo que representa o telefone do usuário.
 	 */
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 
 	/**
-	 * Obtem a lista dos ids dos carros do usuario.
+	 * Obtem a lista dos ids dos carros do usuário.
 	 * 
-	 * @return List<Long>
+	 * @return Uma lista que contém os IDs dos carros do usuário.
 	 */
 	public List<Long> getCars() {
 		return cars;
 	}
 
 	/**
-	 * Define  a lista de carros do usuario.
+	 * Define  a lista de carros do usuário.
 	 * 
-	 * @param cars
+	 * @param cars Atributo que representa a lista de carros do usuário.
 	 */
 	public void setCars(List<Long> cars) {
 		this.cars = cars;
 	}
 
 	/**
-	 * Obtem a data de criacao do usuario.
+	 * Obtem a data de criacao do usuário.
 	 * 
-	 * @return LocalDateTime
+	 * @return A data de criacao do usuário.
 	 */
 	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
 
 	/**
-	 * Define a data de criacao do usuario.
+	 * Define a data de criacao do usuário.
 	 * 
-	 * @param createdAt
+	 * @param createdAt Atributo que representa a data de criação do usuário.
 	 */
 	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
 
 	/**
-	 * Obtem a data do ultimo login do usuario.
+	 * Obtem a data do ultimo login do usuário.
 	 * 
-	 * @return LocalDateTime
+	 * @return A data do ultimo login do usuário.
 	 */
 	public LocalDateTime getLastLogin() {
 		return lastLogin;
 	}
 
 	/**
-	 * Define a data do ultimo login do usuario.
+	 * Define a data do ultimo login do usuário.
 	 * 
-	 * @param createdAt
+	 * @param lastLogin Atributo que representa a data do ultimo login do usuário.
 	 */
 	public void setLastLogin(LocalDateTime lastLogin) {
 		this.lastLogin = lastLogin;
 	}
 
 	/**
-	 * Obtem a data do login atual do usuario.
+	 * Obtem a data do login atual do usuário.
 	 * 
-	 * @return LocalDateTime
+	 * @return A data do login atual do usuário.
 	 */
 	public LocalDateTime getCurrentLogin() {
 		return currentLogin;
 	}
 
 	/**
-	 * Define a data do login atual do usuario.
+	 * Define a data do login atual do usuário.
 	 * 
-	 * @param currentLogin
+	 * @param currentLogin Atributo que representa a data login atual do usuário.
 	 */
 	public void setCurrentLogin(LocalDateTime currentLogin) {
 		this.currentLogin = currentLogin;
 	}
 
 	/**
-	 * Valida o usuario.
+	 * Valida o usuário.
 	 * 
-	 * @return boolean
+	 * @return Validação do usuário.
 	 */
     public boolean isValid() {
         return firstName != null && !firstName.trim().isEmpty() &&
@@ -391,9 +391,9 @@ public class User implements Serializable {
     }
 	
 	/**
-	 * Gera um hash de um usuario a partir do seu id, email e login.
+	 * Gera um hash de um usuário a partir do seu id.
 	 * 
-	 * @return int
+	 * @return Um hash de um usuário a partir do seu id.
 	 */
 	@Override
 	public int hashCode() {
@@ -401,9 +401,9 @@ public class User implements Serializable {
 	}
 
 	/**
-	 * Verifica se um usuario e igual ao outro pelo id, email e login.
+	 * Verifica se um usuário e igual ao outro pelo id.
 	 * 
-	 * @param obj
+	 * @param obj Objeto para comparação.
 	 * @return boolean
 	 */
 	@Override
@@ -419,9 +419,9 @@ public class User implements Serializable {
 	}
 
 	/**
-	 * Retorna uma representacao em texto do usuario.
+	 * Retorna uma representacao em texto do usuário.
 	 * 
-	 * @return String
+	 * @return Uma representacao em texto do usuário.
 	 */
 	@Override
 	public String toString() {
