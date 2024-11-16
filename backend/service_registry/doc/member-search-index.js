@@ -1,0 +1,1 @@
+memberSearchIndex = [{"p":"com.pitang.service_registry","c":"ServiceRegistryApplication","l":"main(String[])","u":"main(java.lang.String[])"},{"p":"com.pitang.service_registry","c":"ServiceRegistryApplication","l":"ServiceRegistryApplication()","u":"%3Cinit%3E()"}];updateSearchResults();
