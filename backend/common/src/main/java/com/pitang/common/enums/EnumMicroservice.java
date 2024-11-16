@@ -5,7 +5,13 @@ package com.pitang.common.enums;
  * configurações de rotas;
  */
 public enum EnumMicroservice {
+	/**
+	 * Enum do user service.
+	 */
 	USERS("user-service"),
+	/**
+	 * Enum do car service.
+	 */
 	CARS("car-service");
 
 	/**

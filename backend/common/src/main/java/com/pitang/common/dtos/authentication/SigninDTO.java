@@ -32,8 +32,8 @@ public class SigninDTO {
 	/**
 	 * Construtor com todos os argumentos.
 	 * 
-	 * @param login
-	 * @param password
+	 * @param login Atributo que representa o login do usuário.
+	 * @param password Atributo que representa a senha do usuário.
 	 */
 	public SigninDTO(String login, String password) {
 		this.login = login;

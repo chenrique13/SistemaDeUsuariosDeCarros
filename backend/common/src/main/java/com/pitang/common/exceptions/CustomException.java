@@ -9,8 +9,14 @@ public class CustomException extends RuntimeException {
 
 	private static final long serialVersionUID = -6350393475779405851L;
 
+	/**
+	 * Código do erro.
+	 */
 	private int errorCode;
 
+	/**
+	 * Status http do erro.
+	 */
 	private HttpStatus httpStatus;
 
 	/**
@@ -22,6 +28,10 @@ public class CustomException extends RuntimeException {
 	
 	/**
 	 * Construtor com a mensagem, codigo e httpStatus da exceção.
+	 *
+	 * @param message Mensagem do erro.
+	 * @param errorCode Código do erro.
+	 * @param httpStatus Status http do erro.
 	 */
 	public CustomException(String message, int errorCode, HttpStatus httpStatus) {
 		super(message);
@@ -31,7 +41,7 @@ public class CustomException extends RuntimeException {
 
 	/**
 	 * Obtem o código de erro da exceção.
-	 * @return int
+	 * @return int código de erro da exceção
 	 */
 	public int getErrorCode() {
 		return errorCode;
@@ -39,7 +49,7 @@ public class CustomException extends RuntimeException {
 
 	/**
 	 * Obtem o httpStatus da exceção.
-	 * @return int
+	 * @return {@link HttpStatus} httpStatus da exceção
 	 */
 	public HttpStatus getHttpStatus() {
 		return httpStatus;

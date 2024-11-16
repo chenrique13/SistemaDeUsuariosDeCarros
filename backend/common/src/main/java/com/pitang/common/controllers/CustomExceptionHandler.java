@@ -17,6 +17,9 @@ import com.pitang.common.exceptions.CustomException;
 
 import feign.FeignException;
 
+/**
+ * Classe que captura as exceções.
+ */
 @RestControllerAdvice
 public abstract class CustomExceptionHandler {
 
@@ -28,10 +31,10 @@ public abstract class CustomExceptionHandler {
 	 * 
 	 * Este método lida com exceções do tipo {@link CustomException}.
 	 *
-	 * @autor Carlos Pereira
+	 * @author Carlos Pereira
 	 *
-	 * @param exception
-	 * @return ResponseEntity
+	 * @param exception Exceção personalizada.
+	 * @return {@link ResponseEntity} com {@link ErrorDTO}.
 	 */
 	@ExceptionHandler(CustomException.class)
 	public ResponseEntity<ErrorDTO> customException(CustomException exception) {
@@ -46,9 +49,11 @@ public abstract class CustomExceptionHandler {
 	 * Este método lida com exceções do tipo {@link HttpMessageNotReadableException}
 	 * e {@link MethodArgumentNotValidException}.
 	 *
-	 * @autor Carlos Pereira
+	 * @author Carlos Pereira
 	 *
-	 * @return ResponseEntity
+	 * @param exception Exceção {@link HttpMessageNotReadableException} ou
+	 *                  {@link MethodArgumentNotValidException}.
+	 * @return {@link ResponseEntity} com {@link ErrorDTO}.
 	 */
 	@ExceptionHandler({ HttpMessageNotReadableException.class, MethodArgumentNotValidException.class })
 	public ResponseEntity<ErrorDTO> invalidFieldsException(Exception exception) {
@@ -62,21 +67,25 @@ public abstract class CustomExceptionHandler {
 	 * 
 	 * Este método lida com exceções do tipo {@link FeignException}.
 	 *
-	 * @autor Carlos Pereira
+	 * @author Carlos Pereira
 	 *
-	 * @param exception
-	 * @return ResponseEntity
-	 * @throws JsonProcessingException 
-	 * @throws JsonMappingException 
+	 * @param exception Exceção {@link FeignException}.
+	 * @return {@link ResponseEntity} com {@link ErrorDTO}.
+	 * @throws JsonProcessingException exceção lançada quando algo dá errado ao
+	 *                                 converter entre objetos Java e JSON.
+	 * @throws JsonMappingException    Exceção lançada quando há um problema de
+	 *                                 mapeamento durante a conversão entre objetos
+	 *                                 Java e JSON.
 	 */
 	@ExceptionHandler(FeignException.class)
-	public ResponseEntity<ErrorDTO> customFeignException(FeignException exception) throws JsonMappingException, JsonProcessingException {
+	public ResponseEntity<ErrorDTO> customFeignException(FeignException exception)
+			throws JsonMappingException, JsonProcessingException {
 		if (exception.contentUTF8() != null) {
 			JsonNode jsonNode = objectMapper.readTree(exception.contentUTF8());
 			String message = jsonNode.path("message").asText();
 			int errorCode = jsonNode.path("errorCode").asInt();
 			ErrorDTO errorDTO = new ErrorDTO(message, errorCode);
-			
+
 			return ResponseEntity.status(exception.status()).body(errorDTO);
 		}
 		return ResponseEntity.internalServerError().build();

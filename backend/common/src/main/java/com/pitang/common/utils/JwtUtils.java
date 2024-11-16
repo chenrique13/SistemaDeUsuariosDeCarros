@@ -42,8 +42,8 @@ public class JwtUtils {
 	 * 
 	 * @author Carlos Pereira
 	 * 
-	 * @param login
-	 * @return String
+	 * @param login Login do usuário.
+	 * @return String Token gerado.
 	 */
 	public String generateToken(String login) {
 		Map<String, Object> claims = new HashMap<>();
@@ -57,8 +57,8 @@ public class JwtUtils {
 	 * 
 	 * @author Carlos Pereira
 	 * 
-	 * @param token
-	 * @return String
+	 * @param token Token gerado.
+	 * @return Validade do token.
 	 */
 	public String validateRecoverToken(String token) {
 		return !isTokenExpired(token) ? removeBearer(token) : null;
@@ -69,8 +69,8 @@ public class JwtUtils {
 	 * 
 	 * @author Carlos Pereira
 	 * 
-	 * @param token
-	 * @return String
+	 * @param token Token gerado.
+	 * @return Login do usuário.
 	 */
 	public String getLogin(String token) {
 		return extractClaim(token, Claims::getSubject);
@@ -81,8 +81,8 @@ public class JwtUtils {
 	 * 
 	 * @author Carlos Pereira
 	 * 
-	 * @param token
-	 * @return Date
+	 * @param token Token gerado.
+	 * @return Date Data de expiração.
 	 */
 	public Date getExpiration(String token) {
 		return extractClaim(token, Claims::getExpiration);
@@ -93,7 +93,7 @@ public class JwtUtils {
 	 * 
 	 * @author Carlos Pereira
 	 * 
-	 * @return {@link SecretKey}
+	 * @return Uma chave secreta do tipo {@link SecretKey}.
 	 */
 	private SecretKey keySignature() {
 		return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
@@ -105,9 +105,9 @@ public class JwtUtils {
 	 * 
 	 * @author Carlos Pereira
 	 * 
-	 * @param claims
-	 * @param login
-	 * @return String
+	 * @param claims Mapa de informações sobre uma entidade e metadados sobre o token.
+	 * @param login Login do usuário
+	 * @return Token gerado.
 	 */
 	private String createToken(Map<String, Object> claims, String login) {
 		return Jwts.builder().claims(claims).subject(login).issuedAt(new Date(System.currentTimeMillis()))
@@ -119,8 +119,8 @@ public class JwtUtils {
 	 * 
 	 * @author Carlos Pereira
 	 * 
-	 * @param token
-	 * @return Claims
+	 * @param token Token gerado.
+	 * @return Claims Informações sobre uma entidade e metadados sobre o token.
 	 */
 	private Claims extrairTodosClaims(String token) {
 		return token != null
@@ -133,9 +133,9 @@ public class JwtUtils {
 	 * 
 	 * @author Carlos Pereira
 	 * 
-	 * @param token
-	 * @param claimsResolver
-	 * @return T
+	 * @param token Token gerado.
+	 * @param claimsResolver Função usada para extrair e processar informações específicas dos claims.
+	 * @return claims.
 	 */
 	private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
 		final Claims claims = extrairTodosClaims(token);
@@ -147,7 +147,7 @@ public class JwtUtils {
 	 * 
 	 * @author Carlos Pereira
 	 * 
-	 * @param token
+	 * @param token Token gerado.
 	 * @return boolean
 	 */
 	private boolean isTokenExpired(String token) {
@@ -158,8 +158,9 @@ public class JwtUtils {
 	 * Método responsável por remover o Bearer do começo do token, caso exista.
 	 * 
 	 * @author Carlos Pereira
-	 * @param token
-	 * @return String
+	 * 
+	 * @param token Token gerado.
+	 * @return Token sem a palavra Bearer.
 	 */
 	private String removeBearer(String token) {
 		if (token != null && token.startsWith("Bearer ")) {
@@ -172,8 +173,10 @@ public class JwtUtils {
 	/**
 	 * Método responsável por obter o login a partir do token.
 	 * 
-	 * @param request
-	 * @return String
+	 * @author Carlos Pereira
+	 * 
+	 * @param request Requisição.
+	 * @return Login do token. 
 	 */
 	public String getLoginFromToken(HttpServletRequest request) {
 		String headerValue = request.getHeader("Authorization");

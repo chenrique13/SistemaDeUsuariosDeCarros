@@ -10,9 +10,11 @@ import java.util.List;
 
 class RoutesCommonTest {
 
-    @BeforeEach
-    void setUp() {
-    	
+	/**
+	 * Inicializa os objetos necessarios antes de cada teste.
+	 */
+	@BeforeEach
+	void runBeforeEachTest() {
         RoutesCommon.PUBLIC_ROUTES.clear();
         RoutesCommon.PRIVATE_ROUTES.clear();
         // Adicionar rotas nos mapas após limpar antes de cada teste

@@ -19,9 +19,12 @@ import com.pitang.common.enums.EnumMicroservice;
 public class RoutesCommon {
 
 	/**
-	 * Mapas das rotas, seu microservico, a lista de métodos HTTP.
+	 * Mapas das rotas publicas, seu microservico, a lista de métodos HTTP.
 	 */
 	public static final Map<String, Map<EnumMicroservice, List<HttpMethod>>> PUBLIC_ROUTES;
+	/**
+	 * Mapas das rotas privadas, seu microservico, a lista de métodos HTTP.
+	 */
 	public static final Map<String, Map<EnumMicroservice, List<HttpMethod>>> PRIVATE_ROUTES;
 
 	static {
@@ -31,12 +34,10 @@ public class RoutesCommon {
 		addRoute("/api/users/{id}", EnumMicroservice.USERS, List.of(HttpMethod.GET, HttpMethod.PUT, HttpMethod.DELETE),
 				PUBLIC_ROUTES);
 		addRoute("swagger-ui/**", EnumMicroservice.USERS, List.of(HttpMethod.GET), PUBLIC_ROUTES);
+		addRoute("v3/api-docs/**", EnumMicroservice.USERS, List.of(HttpMethod.GET), PUBLIC_ROUTES);
+		addRoute("swagger-ui/**", EnumMicroservice.CARS, List.of(HttpMethod.GET), PUBLIC_ROUTES);
 		addRoute("v3/api-docs/**", EnumMicroservice.CARS, List.of(HttpMethod.GET), PUBLIC_ROUTES);
 		
-	
-		
-//		addRoute("/api/users/login/{login}", EnumMicroservice.USERS, List.of(HttpMethod.GET), PUBLIC_ROUTES);
-
 		PRIVATE_ROUTES = new HashMap<>();
 		addRoute("/api/me", EnumMicroservice.USERS, List.of(HttpMethod.GET), PRIVATE_ROUTES);
 		addRoute("/api/cars", EnumMicroservice.CARS, List.of(HttpMethod.GET, HttpMethod.POST), PRIVATE_ROUTES);
@@ -50,10 +51,10 @@ public class RoutesCommon {
 	 * 
 	 * @author Carlos Pereira
 	 * 
-	 * @param route
-	 * @param service
-	 * @param methods
-	 * @param routes
+	 * @param route Rota.
+	 * @param service Enum do micro serviço.
+	 * @param methods Lista de métodos http.
+	 * @param routes Mapa de rota, micro serviço e métodos http.
 	 */
 	public static void addRoute(String route, EnumMicroservice service, List<HttpMethod> methods,
 			Map<String, Map<EnumMicroservice, List<HttpMethod>>> routes) {
@@ -65,8 +66,8 @@ public class RoutesCommon {
 	 * 
 	 * @author Carlos Pereira
 	 * 
-	 * @param route
-	 * @param httpMethod
+	 * @param route Rota
+	 * @param httpMethod Método http.
 	 * @return boolean
 	 */
 	public static boolean isRoutePublic(String route, HttpMethod httpMethod) {
@@ -85,8 +86,8 @@ public class RoutesCommon {
 	 * 
 	 * @author Carlos Pereira
 	 * 
-	 * @param route
-	 * @param httpMethod
+	 * @param route Rota
+	 * @param httpMethod Método http.
 	 * @return boolean
 	 */
 	public static boolean isRoutePrivate(String route, HttpMethod httpMethod) {
