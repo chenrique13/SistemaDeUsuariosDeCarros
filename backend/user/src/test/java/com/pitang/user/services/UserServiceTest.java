@@ -4,7 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -22,8 +24,12 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.pitang.common.dtos.cars.CarDTO;
+import com.pitang.common.dtos.cars.SaveUpdateCarDTO;
+import com.pitang.common.dtos.users.SaveUserDTO;
 import com.pitang.common.dtos.users.UserDTO;
 import com.pitang.common.dtos.users.UserInfoDTO;
 import com.pitang.common.proxies.CarProxy;
@@ -44,15 +50,18 @@ public class UserServiceTest {
 	private UserService userService;
 
 	private List<User> mockUsers;
-	
+
+	@Mock
+	private PasswordEncoder passwordEncoder; // Adicione o mock do PasswordEncoder
+
 	private List<Long> car1 = Arrays.asList(1L, 2L);
 	private List<Long> car2 = Arrays.asList(3L);
-	
+
 	private User user1 = new User(1L, "João", "Silva", "joao.silva@gmail.com", new Date(), "joaosilva", "senha123",
 			"1234567890", car1);
 	private User user2 = new User(2L, "Maria", "Oliveira", "maria.oliveira@gmail.com", new Date(), "mariaoliveira",
 			"senha123", "0987654321", car2);
-	
+
 	/**
 	 * Inicializa os objetos necessarios antes de cada teste.
 	 */
@@ -62,7 +71,7 @@ public class UserServiceTest {
 
 		user1.setCreatedAt(LocalDateTime.of(2023, 2, 1, 0, 0));
 		user1.setLastLogin(LocalDateTime.of(2024, 2, 1, 0, 0));
-		
+
 		mockUsers = new ArrayList<>();
 		mockUsers.add(user1);
 		mockUsers.add(user2);
@@ -162,7 +171,7 @@ public class UserServiceTest {
 
 		verify(userRepository).findById(user1.getId());
 	}
-	
+
 	@Test
 	void testFindUserByLogin_UserExists() {
 		UserDTO result = userService.findUserByLogin(user1.getLogin());
@@ -179,7 +188,7 @@ public class UserServiceTest {
 
 		verify(userRepository).findByLogin(user1.getLogin());
 	}
-	
+
 	@Test
 	void testFindUserByLogin_UserDoesNotExist() {
 		when(userRepository.findByLogin(user1.getLogin())).thenReturn(Optional.empty());
@@ -190,12 +199,12 @@ public class UserServiceTest {
 
 		verify(userRepository).findByLogin(user1.getLogin());
 	}
-	
+
 	@Test
 	void testFindMe_UserExists() {
-	    UserInfoDTO result = userService.findMe(user1.getLogin());
+		UserInfoDTO result = userService.findMe(user1.getLogin());
 
-	    assertNotNull(result);
+		assertNotNull(result);
 		assertEquals(user1.getFirstName(), result.getFirstName());
 		assertEquals(user1.getLastName(), result.getLastName());
 		assertEquals(user1.getEmail(), result.getEmail());
@@ -205,19 +214,52 @@ public class UserServiceTest {
 		assertEquals(LocalDateTime.of(2023, 2, 1, 0, 0), result.getCreatedAt());
 		assertEquals(LocalDateTime.of(2024, 2, 1, 0, 0), result.getLastLogin());
 
-	    verify(userRepository).findByLogin(user1.getLogin());
-	    verify(carProxy).findAllCarsbyIds(car1);
+		verify(userRepository).findByLogin(user1.getLogin());
+		verify(carProxy).findAllCarsbyIds(car1);
 	}
 
 	@Test
 	void testFindMe_UserDoesNotExist() {
-	    when(userRepository.findByLogin(user1.getLogin())).thenReturn(Optional.empty());
+		when(userRepository.findByLogin(user1.getLogin())).thenReturn(Optional.empty());
 
-	    UserInfoDTO result = userService.findMe(user1.getLogin());
+		UserInfoDTO result = userService.findMe(user1.getLogin());
 
-	    assertNull(result);
+		assertNull(result);
 
-	    verify(userRepository).findByLogin(user1.getLogin());
-	    verify(carProxy, never()).findAllCarsbyIds(anyList());
+		verify(userRepository).findByLogin(user1.getLogin());
+		verify(carProxy, never()).findAllCarsbyIds(anyList());
 	}
+
+	@Test
+	void testInsertUser() {
+		SaveUpdateCarDTO carDTO = new SaveUpdateCarDTO(2020, "ABC-1234", "ONIX", "PRETO");
+		SaveUserDTO saveUserDTO = new SaveUserDTO("João", "Silva", "joao.silva@gmail.com", new Date(), "joaosilva2",
+				"senha123", "1234567890", Collections.singletonList(carDTO));
+
+		User mockUser = new User(saveUserDTO.getFirstName(), saveUserDTO.getLastName(), saveUserDTO.getEmail(),
+				saveUserDTO.getBirthday(), saveUserDTO.getLogin(), "encodedPassword", saveUserDTO.getPhone(),
+				Arrays.asList(1L));
+		mockUser.setId(1L);
+
+		when(carProxy.insertCar(any(SaveUpdateCarDTO.class)))
+				.thenReturn(ResponseEntity.ok(new CarDTO(1L, 2020, "ABC-1234", "ONIX", "PRETO")));
+		when(userRepository.save(any(User.class))).thenReturn(mockUser);
+		when(passwordEncoder.encode(any(CharSequence.class))).thenReturn("senha123");
+
+		UserDTO result = userService.insertUser(saveUserDTO);
+
+		assertNotNull(result);
+		assertEquals(1L, result.getId());
+		assertEquals("João", result.getFirstName());
+		assertEquals("Silva", result.getLastName());
+		assertEquals("joao.silva@gmail.com", result.getEmail());
+		assertEquals("joaosilva2", result.getLogin());
+		assertEquals("1234567890", result.getPhone());
+
+		verify(userRepository).save(any(User.class));
+		verify(carProxy).insertCar(any(SaveUpdateCarDTO.class));
+		verify(passwordEncoder).encode(any(CharSequence.class));
+		verify(userRepository).findByLogin(anyString());
+	}
+
 }
