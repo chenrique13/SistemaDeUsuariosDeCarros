@@ -94,4 +94,47 @@ class CarServiceTest {
 		verify(userProxy).findUserByLogin(login);
 		verifyNoInteractions(carRepository);
 	}
+	
+	@Test
+	void testFindAllCarsByIds() {
+	    List<Long> carIds = Arrays.asList(car1.getId(), car2.getId());
+
+	    when(carRepository.findAllById(carIds))
+	            .thenReturn(Arrays.asList(car1, car2));
+
+	    List<CarDTO> result = carService.findAllCarsByIds(carIds);
+
+	    assertNotNull(result);
+	    assertEquals(userDTO.getCars().size(), result.size());
+	    assertEquals(car1.getId(), result.get(0).getId());
+	    assertEquals(car1.getYear(), result.get(0).getYear());
+	    assertEquals(car1.getLicensePlate(), result.get(0).getLicensePlate());
+	    assertEquals(car1.getModel(), result.get(0).getModel());
+	    assertEquals(car1.getColor(), result.get(0).getColor());
+
+	    assertEquals(car2.getId(), result.get(1).getId());
+	    assertEquals(car2.getYear(), result.get(1).getYear());
+	    assertEquals(car2.getLicensePlate(), result.get(1).getLicensePlate());
+	    assertEquals(car2.getModel(), result.get(1).getModel());
+	    assertEquals(car2.getColor(), result.get(1).getColor());
+
+	    verify(carRepository).findAllById(carIds);
+	}
+
+	@Test
+	void testFindAllCarsByIds_CarsNotFound() {
+	    List<Long> carIds = Arrays.asList(1L, 2L);
+
+	    when(carRepository.findAllById(carIds)).thenReturn(Arrays.asList());
+
+	    List<CarDTO> result = carService.findAllCarsByIds(carIds);
+
+	    assertNotNull(result);
+	    assertTrue(result.isEmpty());
+
+	    verify(carRepository).findAllById(carIds);
+	}
+
+
+	
 }
