@@ -332,4 +332,34 @@ public class UserServiceTest {
 		verify(userRepository, never()).delete(any(User.class));
 	}
 
+	@Test
+	void testUpdateLastLoginUser_UserExists() {
+		LocalDateTime currentDateTime = LocalDateTime.now();
+
+		when(userRepository.findById(user1.getId())).thenReturn(Optional.of(user1));
+		when(userRepository.save(any(User.class))).thenReturn(user1);
+
+		userService.updateLastLoginUser(user1.getId());
+
+		verify(userRepository).findById(user1.getId());
+		verify(userRepository).save(user1);
+
+		assertNotNull(user1.getLastLogin());
+		assertEquals(currentDateTime, user1.getLastLogin());
+		assertNotNull(user1.getCurrentLogin());
+		assertEquals(currentDateTime, user1.getCurrentLogin());
+	}
+
+	@Test
+	void testUpdateLastLoginUser_UserDoesNotExist() {
+		Long userId = 10L;
+
+		when(userRepository.findById(userId)).thenReturn(Optional.empty());
+
+		userService.updateLastLoginUser(userId);
+
+		verify(userRepository).findById(userId);
+		verify(userRepository, never()).save(any(User.class));
+	}
+
 }
