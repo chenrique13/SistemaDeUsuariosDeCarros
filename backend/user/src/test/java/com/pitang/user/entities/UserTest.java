@@ -69,6 +69,26 @@ class UserTest {
 	}
 
 	/**
+	 * Testa o construtor com argumentos. Verifica se o objeto inicializa com os
+	 * valores fornecidos.
+	 */
+	@Test
+	public void testConstructorWithoutIdInArguments() {
+		User user = new User("Carlos", "Pereira", "teste@gmail.com",
+				Date.from(LocalDate.of(1994, 1, 1).atStartOfDay(ZoneId.systemDefault()).toInstant()), "cPereira",
+				"teste", "81988888888", listCars);
+		assertEquals("Carlos", user.getFirstName());
+		assertEquals("Pereira", user.getLastName());
+		assertEquals("teste@gmail.com", user.getEmail());
+		assertEquals(Date.from(LocalDate.of(1994, 1, 1).atStartOfDay(ZoneId.systemDefault()).toInstant()),
+				user.getBirthday());
+		assertEquals("cPereira", user.getLogin());
+		assertEquals("teste", user.getPassword());
+		assertEquals("81988888888", user.getPhone());
+		assertEquals(listCars, user.getCars());
+	}
+	
+	/**
 	 * Testa os metodos get e set para o id. Verifica se obtem e define o id
 	 * corretamente.
 	 */
