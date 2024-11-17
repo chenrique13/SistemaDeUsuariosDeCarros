@@ -310,26 +310,26 @@ public class UserServiceTest {
 
 	@Test
 	void testDeleteUser_UserExists() {
-	    when(userRepository.findById(user1.getId())).thenReturn(Optional.of(user1));
-	    when(carProxy.deleteCar(any(Long.class))).thenReturn(null);
-	    doNothing().when(userRepository).delete(any(User.class));
+		when(userRepository.findById(user1.getId())).thenReturn(Optional.of(user1));
+		when(carProxy.deleteCar(any(Long.class))).thenReturn(null);
+		doNothing().when(userRepository).delete(any(User.class));
 
-	    userService.deleteUser(user1.getId());
+		userService.deleteUser(user1.getId());
 
-	    verify(userRepository).findById(user1.getId());
-	    verify(carProxy, times(user1.getCars().size())).deleteCar(any(Long.class));
-	    verify(userRepository).delete(user1);
+		verify(userRepository).findById(user1.getId());
+		verify(carProxy, times(user1.getCars().size())).deleteCar(any(Long.class));
+		verify(userRepository).delete(user1);
 	}
 
 	@Test
 	void testDeleteUser_UserDoesNotExist() {
-	    when(userRepository.findById(user1.getId())).thenReturn(Optional.empty());
+		when(userRepository.findById(user1.getId())).thenReturn(Optional.empty());
 
-	    userService.deleteUser(user1.getId());
+		userService.deleteUser(user1.getId());
 
-	    verify(userRepository).findById(user1.getId());
-	    verify(carProxy, never()).deleteCar(any(Long.class));
-	    verify(userRepository, never()).delete(any(User.class));
+		verify(userRepository).findById(user1.getId());
+		verify(carProxy, never()).deleteCar(any(Long.class));
+		verify(userRepository, never()).delete(any(User.class));
 	}
 
 }
