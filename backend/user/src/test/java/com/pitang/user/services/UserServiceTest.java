@@ -10,6 +10,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -29,6 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -299,7 +301,7 @@ public class UserServiceTest {
 		verify(userRepository).save(any(User.class));
 		verify(passwordEncoder).encode(updateUserDTO.getPassword());
 	}
-
+	
 	@Test
 	void testUpdateUser_UserNotFound() {
 		UpdateUserDTO updateUserDTO = new UpdateUserDTO("Carlos", "Oliveira", "carlos.oliveira@gmail.com", new Date(),
@@ -309,6 +311,22 @@ public class UserServiceTest {
 
 		assertThrows(CustomException.class, () -> userService.updateUser(1L, updateUserDTO));
 	}
+	
+    @Test
+    void testShouldThrowExceptionWhenUserIsInvalid() {
+        Long userId = 1L;
+        User user = mock(User.class);
+        when(userRepository.findById(userId)).thenReturn(Optional.of(user));
+        when(user.isValid()).thenReturn(false);
+
+        UpdateUserDTO updateUserDTO = new UpdateUserDTO();
+        CustomException exception = assertThrows(CustomException.class, 
+            () -> userService.updateUser(userId, updateUserDTO));
+
+        assertEquals("Missing fields", exception.getMessage());
+        assertEquals(5, exception.getErrorCode());
+        assertEquals(HttpStatus.BAD_REQUEST, exception.getHttpStatus());
+    }
 
 	@Test
 	void testDeleteUser_UserExists() {
