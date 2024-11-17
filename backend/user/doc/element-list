@@ -1,0 +1,6 @@
+com.pitang.user
+com.pitang.user.configurations
+com.pitang.user.controllers
+com.pitang.user.entities
+com.pitang.user.repositories
+com.pitang.user.services

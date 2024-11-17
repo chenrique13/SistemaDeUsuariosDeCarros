@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.pitang.user"},{"l":"com.pitang.user.configurations"},{"l":"com.pitang.user.controllers"},{"l":"com.pitang.user.entities"},{"l":"com.pitang.user.repositories"},{"l":"com.pitang.user.services"}];updateSearchResults();
