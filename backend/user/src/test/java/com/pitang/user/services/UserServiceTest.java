@@ -62,6 +62,7 @@ public class UserServiceTest {
 
 		when(userRepository.findAll()).thenReturn(mockUsers);
 		when(userRepository.findById(user1.getId())).thenReturn(Optional.of(user1));
+		when(userRepository.findByLogin(user1.getLogin())).thenReturn(Optional.of(user1));
 
 		when(carProxy.findAllCarsbyIds(Arrays.asList(1L, 2L)))
 				.thenReturn(Arrays.asList(new CarDTO(1L, 2020, "ABC-1234", "ONIX", "PRETO"),
@@ -152,5 +153,34 @@ public class UserServiceTest {
 		assertNull(result);
 
 		verify(userRepository).findById(userId);
+	}
+	
+	@Test
+	void testFindUserByLogin_UserExists() {
+		String userLogin = "joaosilva";
+		UserDTO result = userService.findUserByLogin(userLogin);
+
+		assertNotNull(result);
+		assertEquals(1L, result.getId());
+		assertEquals("João", result.getFirstName());
+		assertEquals("Silva", result.getLastName());
+		assertEquals("joao.silva@gmail.com", result.getEmail());
+		assertEquals(userLogin, result.getLogin());
+		assertEquals("1234567890", result.getPhone());
+		assertEquals(2, result.getCars().size());
+
+		verify(userRepository).findByLogin(userLogin);
+	}
+	
+	@Test
+	void testFindUserByLogin_UserDoesNotExist() {
+		String userLogin = "joaosilva";
+		when(userRepository.findByLogin(userLogin)).thenReturn(Optional.empty());
+
+		UserDTO result = userService.findUserByLogin(userLogin);
+
+		assertNull(result);
+
+		verify(userRepository).findByLogin(userLogin);
 	}
 }
