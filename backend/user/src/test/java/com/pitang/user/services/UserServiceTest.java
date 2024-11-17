@@ -2,7 +2,9 @@ package com.pitang.user.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -10,6 +12,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -58,6 +61,7 @@ public class UserServiceTest {
 		mockUsers.add(user2);
 
 		when(userRepository.findAll()).thenReturn(mockUsers);
+		when(userRepository.findById(user1.getId())).thenReturn(Optional.of(user1));
 
 		when(carProxy.findAllCarsbyIds(Arrays.asList(1L, 2L)))
 				.thenReturn(Arrays.asList(new CarDTO(1L, 2020, "ABC-1234", "ONIX", "PRETO"),
@@ -82,13 +86,13 @@ public class UserServiceTest {
 		assertEquals("joaosilva", userDTO1.getLogin());
 		assertEquals("1234567890", userDTO1.getPhone());
 		assertEquals(2, userDTO1.getCars().size());
-		
+
 		assertEquals(1L, userDTO1.getCars().get(0).getId());
 		assertEquals(2020, userDTO1.getCars().get(0).getYear());
 		assertEquals("ABC-1234", userDTO1.getCars().get(0).getLicensePlate());
 		assertEquals("ONIX", userDTO1.getCars().get(0).getModel());
 		assertEquals("PRETO", userDTO1.getCars().get(0).getColor());
-		
+
 		assertEquals(2L, userDTO1.getCars().get(1).getId());
 		assertEquals(2021, userDTO1.getCars().get(1).getYear());
 		assertEquals("XYZ-5678", userDTO1.getCars().get(1).getLicensePlate());
@@ -102,8 +106,8 @@ public class UserServiceTest {
 		assertEquals("maria.oliveira@gmail.com", userDTO2.getEmail());
 		assertEquals("mariaoliveira", userDTO2.getLogin());
 		assertEquals("0987654321", userDTO2.getPhone());
-		assertEquals(1, userDTO2.getCars().size());	
-		
+		assertEquals(1, userDTO2.getCars().size());
+
 		assertEquals(3L, userDTO2.getCars().get(0).getId());
 		assertEquals(2022, userDTO2.getCars().get(0).getYear());
 		assertEquals("YUI-9101", userDTO2.getCars().get(0).getLicensePlate());
@@ -119,5 +123,34 @@ public class UserServiceTest {
 
 		assertNotNull(result);
 		assertTrue(result.isEmpty());
+	}
+
+	@Test
+	void testFindUserById_UserExists() {
+		Long userId = 1L;
+		UserDTO result = userService.findUserById(userId);
+
+		assertNotNull(result);
+		assertEquals(userId, result.getId());
+		assertEquals("João", result.getFirstName());
+		assertEquals("Silva", result.getLastName());
+		assertEquals("joao.silva@gmail.com", result.getEmail());
+		assertEquals("joaosilva", result.getLogin());
+		assertEquals("1234567890", result.getPhone());
+		assertEquals(2, result.getCars().size());
+
+		verify(userRepository).findById(userId);
+	}
+
+	@Test
+	void testFindUserById_UserDoesNotExist() {
+		Long userId = 1L;
+		when(userRepository.findById(userId)).thenReturn(Optional.empty());
+
+		UserDTO result = userService.findUserById(userId);
+
+		assertNull(result);
+
+		verify(userRepository).findById(userId);
 	}
 }
