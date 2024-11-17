@@ -1,6 +1,7 @@
 package com.pitang.user.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -381,6 +382,29 @@ public class UserServiceTest {
 		when(userRepository.findByLogin(user1.getLogin())).thenReturn(Optional.empty());
 
 		userService.addCarToUser(1L, user1.getLogin());
+
+		verify(userRepository).findByLogin(user1.getLogin());
+		verify(userRepository, never()).save(any(User.class));
+	}
+	
+	@Test
+	void testDeleteCarToUser_UserExists() {
+		when(userRepository.findByLogin(user1.getLogin())).thenReturn(Optional.of(user1));
+		when(userRepository.save(any(User.class))).thenReturn(user1);
+
+		userService.deleteCarToUser(car1.get(0), user1.getLogin());
+
+		verify(userRepository).findByLogin(user1.getLogin());
+		verify(userRepository).save(user1);
+
+		assertFalse(user1.getCars().contains(car1.get(0)));
+	}
+
+	@Test
+	void testDeleteCarToUser_UserDoesNotExist() {
+		when(userRepository.findByLogin(user1.getLogin())).thenReturn(Optional.empty());
+
+		userService.deleteCarToUser(1L, user1.getLogin());
 
 		verify(userRepository).findByLogin(user1.getLogin());
 		verify(userRepository, never()).save(any(User.class));

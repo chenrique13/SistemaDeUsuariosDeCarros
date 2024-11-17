@@ -136,8 +136,8 @@ public class UserService {
 		validateInsertUpdateUser(user);
 
 		for (SaveUpdateCarDTO saveUpdateCarDTO : saveUserDTO.getCars()) {
-			SaveUpdateCarDTO newCar = new SaveUpdateCarDTO(saveUpdateCarDTO.getYear(), saveUpdateCarDTO.getLicensePlate(),
-					saveUpdateCarDTO.getModel(), saveUpdateCarDTO.getColor());
+			SaveUpdateCarDTO newCar = new SaveUpdateCarDTO(saveUpdateCarDTO.getYear(),
+					saveUpdateCarDTO.getLicensePlate(), saveUpdateCarDTO.getModel(), saveUpdateCarDTO.getColor());
 			idsCars.add(carProxy.insertCar(newCar).getBody().getId());
 		}
 
@@ -149,7 +149,7 @@ public class UserService {
 	 *
 	 * @author Carlos Pereira
 	 *
-	 * @param id Atributo que representa o identificador do usuário.
+	 * @param id            Atributo que representa o identificador do usuário.
 	 * @param updateUserDTO Objeto que representa do usuário.
 	 * @return {@link UserDTO}
 	 */
@@ -207,8 +207,7 @@ public class UserService {
 		if (user.isPresent()) {
 			LocalDateTime localDateTimenow = LocalDateTime.now();
 
-			user.get().setLastLogin(
-					user.get().getCurrentLogin() != null ? user.get().getCurrentLogin() : localDateTimenow);
+			user.get().setLastLogin(Optional.ofNullable(user.get().getCurrentLogin()).orElse(localDateTimenow));
 			user.get().setCurrentLogin(localDateTimenow);
 
 			userRepository.save(user.get());
@@ -220,7 +219,7 @@ public class UserService {
 	 * 
 	 * @author Carlos Pereira
 	 * 
-	 * @param id Atributo que representa o identificador do carro.
+	 * @param id    Atributo que representa o identificador do carro.
 	 * @param login Atributo que representa o login do usuário.
 	 */
 	public void addCarToUser(Long id, String login) {
@@ -228,9 +227,9 @@ public class UserService {
 
 		if (user.isPresent()) {
 			List<Long> updatedCars = new ArrayList<Long>(user.get().getCars());
-	        updatedCars.add(id);
-	        user.get().setCars(updatedCars); 
-	        
+			updatedCars.add(id);
+			user.get().setCars(updatedCars);
+
 			userRepository.save(user.get());
 		}
 	}
@@ -240,14 +239,16 @@ public class UserService {
 	 * 
 	 * @author Carlos Pereira
 	 * 
-	 * @param id Atributo que representa o identificador do carro.
+	 * @param id    Atributo que representa o identificador do carro.
 	 * @param login Atributo que representa o login do usuário.
 	 */
 	public void deleteCarToUser(Long id, String login) {
 		Optional<User> user = userRepository.findByLogin(login);
 
 		if (user.isPresent()) {
-			user.get().getCars().remove(id);
+			List<Long> updatedCars = new ArrayList<Long>(user.get().getCars());
+			updatedCars.remove(id);
+			user.get().setCars(updatedCars);
 			userRepository.save(user.get());
 		}
 	}
