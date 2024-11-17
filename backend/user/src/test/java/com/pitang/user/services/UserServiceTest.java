@@ -3,11 +3,14 @@ package com.pitang.user.services;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -30,8 +33,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.pitang.common.dtos.cars.CarDTO;
 import com.pitang.common.dtos.cars.SaveUpdateCarDTO;
 import com.pitang.common.dtos.users.SaveUserDTO;
+import com.pitang.common.dtos.users.UpdateUserDTO;
 import com.pitang.common.dtos.users.UserDTO;
 import com.pitang.common.dtos.users.UserInfoDTO;
+import com.pitang.common.exceptions.CustomException;
 import com.pitang.common.proxies.CarProxy;
 import com.pitang.user.entities.User;
 import com.pitang.user.repositories.UserRepository;
@@ -260,6 +265,71 @@ public class UserServiceTest {
 		verify(carProxy).insertCar(any(SaveUpdateCarDTO.class));
 		verify(passwordEncoder).encode(any(CharSequence.class));
 		verify(userRepository).findByLogin(anyString());
+	}
+
+	@Test
+	void testUpdateUser_Success() {
+		UpdateUserDTO updateUserDTO = new UpdateUserDTO("Carlos", "Oliveira", "carlos.oliveira@gmail.com", new Date(),
+				"carlosoliveira", "novaSenha123", "9876543210");
+
+		User existingUser = new User(1L, "João", "Silva", "joao.silva@gmail.com", new Date(), "joaosilva", "senha123",
+				"1234567890", car1);
+
+		User updatedUser = new User(1L, "Carlos", "Oliveira", "carlos.oliveira@gmail.com", new Date(), "carlosoliveira",
+				"novaSenha123", "9876543210", car1);
+
+		when(userRepository.findById(1L)).thenReturn(Optional.of(existingUser));
+		when(passwordEncoder.encode(updateUserDTO.getPassword())).thenReturn("novaSenha123");
+		when(userRepository.save(any(User.class))).thenReturn(updatedUser);
+
+		UserDTO result = userService.updateUser(1L, updateUserDTO);
+
+		assertNotNull(result);
+		assertEquals(1L, result.getId());
+		assertEquals("Carlos", result.getFirstName());
+		assertEquals("Oliveira", result.getLastName());
+		assertEquals("carlos.oliveira@gmail.com", result.getEmail());
+		assertEquals("carlosoliveira", result.getLogin());
+		assertEquals("9876543210", result.getPhone());
+		assertEquals("novaSenha123", result.getPassword());
+
+		verify(userRepository).findById(1L);
+		verify(userRepository).save(any(User.class));
+		verify(passwordEncoder).encode(updateUserDTO.getPassword());
+	}
+
+	@Test
+	void testUpdateUser_UserNotFound() {
+		UpdateUserDTO updateUserDTO = new UpdateUserDTO("Carlos", "Oliveira", "carlos.oliveira@gmail.com", new Date(),
+				"carlosoliveira", "novaSenha123", "9876543210");
+
+		when(userRepository.findById(1L)).thenReturn(Optional.empty());
+
+		assertThrows(CustomException.class, () -> userService.updateUser(1L, updateUserDTO));
+	}
+
+	@Test
+	void testDeleteUser_UserExists() {
+	    when(userRepository.findById(user1.getId())).thenReturn(Optional.of(user1));
+	    when(carProxy.deleteCar(any(Long.class))).thenReturn(null);
+	    doNothing().when(userRepository).delete(any(User.class));
+
+	    userService.deleteUser(user1.getId());
+
+	    verify(userRepository).findById(user1.getId());
+	    verify(carProxy, times(user1.getCars().size())).deleteCar(any(Long.class));
+	    verify(userRepository).delete(user1);
+	}
+
+	@Test
+	void testDeleteUser_UserDoesNotExist() {
+	    when(userRepository.findById(user1.getId())).thenReturn(Optional.empty());
+
+	    userService.deleteUser(user1.getId());
+
+	    verify(userRepository).findById(user1.getId());
+	    verify(carProxy, never()).deleteCar(any(Long.class));
+	    verify(userRepository, never()).delete(any(User.class));
 	}
 
 }
