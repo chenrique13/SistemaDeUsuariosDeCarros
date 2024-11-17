@@ -227,7 +227,10 @@ public class UserService {
 		Optional<User> user = userRepository.findByLogin(login);
 
 		if (user.isPresent()) {
-			user.get().getCars().add(id);
+			List<Long> updatedCars = new ArrayList<Long>(user.get().getCars());
+	        updatedCars.add(id);
+	        user.get().setCars(updatedCars); 
+	        
 			userRepository.save(user.get());
 		}
 	}

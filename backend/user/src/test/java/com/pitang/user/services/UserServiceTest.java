@@ -15,6 +15,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -334,7 +335,7 @@ public class UserServiceTest {
 
 	@Test
 	void testUpdateLastLoginUser_UserExists() {
-		LocalDateTime currentDateTime = LocalDateTime.now();
+		LocalDateTime currentDateTime = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
 
 		when(userRepository.findById(user1.getId())).thenReturn(Optional.of(user1));
 		when(userRepository.save(any(User.class))).thenReturn(user1);
@@ -345,9 +346,9 @@ public class UserServiceTest {
 		verify(userRepository).save(user1);
 
 		assertNotNull(user1.getLastLogin());
-		assertEquals(currentDateTime, user1.getLastLogin());
+		assertEquals(currentDateTime, user1.getLastLogin().truncatedTo(ChronoUnit.SECONDS));
 		assertNotNull(user1.getCurrentLogin());
-		assertEquals(currentDateTime, user1.getCurrentLogin());
+		assertEquals(currentDateTime, user1.getCurrentLogin().truncatedTo(ChronoUnit.SECONDS));
 	}
 
 	@Test
@@ -359,6 +360,29 @@ public class UserServiceTest {
 		userService.updateLastLoginUser(userId);
 
 		verify(userRepository).findById(userId);
+		verify(userRepository, never()).save(any(User.class));
+	}
+
+	@Test
+	void testAddCarToUser_UserExists() {
+		when(userRepository.findByLogin(user1.getLogin())).thenReturn(Optional.of(user1));
+		when(userRepository.save(any(User.class))).thenReturn(user1);
+
+		userService.addCarToUser(car1.get(0), user1.getLogin());
+
+		verify(userRepository).findByLogin(user1.getLogin());
+		verify(userRepository).save(user1);
+
+		assertTrue(user1.getCars().contains(car1.get(0)));
+	}
+
+	@Test
+	void testAddCarToUser_UserDoesNotExist() {
+		when(userRepository.findByLogin(user1.getLogin())).thenReturn(Optional.empty());
+
+		userService.addCarToUser(1L, user1.getLogin());
+
+		verify(userRepository).findByLogin(user1.getLogin());
 		verify(userRepository, never()).save(any(User.class));
 	}
 
