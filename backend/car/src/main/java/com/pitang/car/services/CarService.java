@@ -93,9 +93,11 @@ public class CarService {
 		if (car.isPresent()) {
 			UserDTO user = userProxy.findUserByLogin(login);
 
-			for (CarDTO carDTO : user.getCars()) {
-				if (carDTO.getId().equals(car.get().getId())) {
-					return convertCarToCarDTO(car.get());
+			if (user != null) {
+				for (CarDTO carDTO : user.getCars()) {
+					if (carDTO.getId().equals(car.get().getId())) {
+						return convertCarToCarDTO(car.get());
+					}
 				}
 			}
 		}
