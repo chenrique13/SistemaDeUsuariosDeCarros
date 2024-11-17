@@ -4,9 +4,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -22,6 +25,7 @@ import org.mockito.MockitoAnnotations;
 
 import com.pitang.common.dtos.cars.CarDTO;
 import com.pitang.common.dtos.users.UserDTO;
+import com.pitang.common.dtos.users.UserInfoDTO;
 import com.pitang.common.proxies.CarProxy;
 import com.pitang.user.entities.User;
 import com.pitang.user.repositories.UserRepository;
@@ -56,6 +60,9 @@ public class UserServiceTest {
 	void runBeforeEachTest() {
 		MockitoAnnotations.openMocks(this);
 
+		user1.setCreatedAt(LocalDateTime.of(2023, 2, 1, 0, 0));
+		user1.setLastLogin(LocalDateTime.of(2024, 2, 1, 0, 0));
+		
 		mockUsers = new ArrayList<>();
 		mockUsers.add(user1);
 		mockUsers.add(user2);
@@ -183,5 +190,34 @@ public class UserServiceTest {
 
 		verify(userRepository).findByLogin(user1.getLogin());
 	}
+	
+	@Test
+	void testFindMe_UserExists() {
+	    UserInfoDTO result = userService.findMe(user1.getLogin());
+
+	    assertNotNull(result);
+		assertEquals(user1.getFirstName(), result.getFirstName());
+		assertEquals(user1.getLastName(), result.getLastName());
+		assertEquals(user1.getEmail(), result.getEmail());
+		assertEquals(user1.getLogin(), result.getLogin());
+		assertEquals(user1.getPhone(), result.getPhone());
+		assertEquals(user1.getCars().size(), result.getCars().size());
+		assertEquals(LocalDateTime.of(2023, 2, 1, 0, 0), result.getCreatedAt());
+		assertEquals(LocalDateTime.of(2024, 2, 1, 0, 0), result.getLastLogin());
+
+	    verify(userRepository).findByLogin(user1.getLogin());
+	    verify(carProxy).findAllCarsbyIds(car1);
+	}
+
+	@Test
+	void testFindMe_UserDoesNotExist() {
+	    when(userRepository.findByLogin(user1.getLogin())).thenReturn(Optional.empty());
+
+	    UserInfoDTO result = userService.findMe(user1.getLogin());
+
+	    assertNull(result);
+
+	    verify(userRepository).findByLogin(user1.getLogin());
+	    verify(carProxy, never()).findAllCarsbyIds(anyList());
 	}
 }
