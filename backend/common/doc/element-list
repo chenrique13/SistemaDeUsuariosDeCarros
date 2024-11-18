@@ -1,0 +1,10 @@
+com.pitang.common
+com.pitang.common.controllers
+com.pitang.common.dtos.authentication
+com.pitang.common.dtos.cars
+com.pitang.common.dtos.common
+com.pitang.common.dtos.users
+com.pitang.common.enums
+com.pitang.common.exceptions
+com.pitang.common.proxies
+com.pitang.common.utils
