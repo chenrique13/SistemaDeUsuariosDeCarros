@@ -1,6 +1,11 @@
 package com.pitang.car.services;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
@@ -15,11 +20,14 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 
 import com.pitang.car.entities.Car;
 import com.pitang.car.repositories.CarRepository;
 import com.pitang.common.dtos.cars.CarDTO;
+import com.pitang.common.dtos.cars.SaveUpdateCarDTO;
 import com.pitang.common.dtos.users.UserDTO;
+import com.pitang.common.exceptions.CustomException;
 import com.pitang.common.proxies.UserProxy;
 
 /**
@@ -199,6 +207,127 @@ class CarServiceTest {
 
 		verify(carRepository).findById(carId);
 		verify(userProxy).findUserByLogin(login);
+	}
+
+	@Test
+	void testInsertCar_Success_WithLogin() {
+		SaveUpdateCarDTO newCarDTO = new SaveUpdateCarDTO(2021, "XYZ-5678", "YARIS", "BRANCO");
+		String login = "user1";
+
+		when(carRepository.save(any(Car.class))).thenReturn(car2);
+		doNothing().when(userProxy).addCarToUser(car2.getId(), login);
+
+		CarDTO result = carService.insertCar(newCarDTO, login);
+
+		assertNotNull(result);
+		assertEquals(car2.getId(), result.getId());
+		assertEquals(car2.getYear(), result.getYear());
+		assertEquals(car2.getLicensePlate(), result.getLicensePlate());
+		assertEquals(car2.getModel(), result.getModel());
+		assertEquals(car2.getColor(), result.getColor());
+
+		verify(carRepository).save(any(Car.class));
+		verify(userProxy).addCarToUser(car2.getId(), login);
+	}
+
+	@Test
+	void testInsertCar_Success_WithoutLogin() {
+		SaveUpdateCarDTO newCarDTO = new SaveUpdateCarDTO(2021, "XYZ-5678", "YARIS", "BRANCO");
+
+		when(carRepository.save(any(Car.class))).thenReturn(car2);
+
+		CarDTO result = carService.insertCar(newCarDTO, null);
+
+		assertNotNull(result);
+		assertEquals(car2.getId(), result.getId());
+		assertEquals(car2.getYear(), result.getYear());
+		assertEquals(car2.getLicensePlate(), result.getLicensePlate());
+		assertEquals(car2.getModel(), result.getModel());
+		assertEquals(car2.getColor(), result.getColor());
+
+		verify(carRepository).save(any(Car.class));
+		verify(userProxy, never()).addCarToUser(anyLong(), anyString());
+	}
+
+	@Test
+	void testUpdateCar_Success() {
+		SaveUpdateCarDTO updateCarDTO = new SaveUpdateCarDTO(2021, "XYZ-5678", "YARIS", "BRANCO");
+
+		when(carRepository.findById(car2.getId())).thenReturn(Optional.of(car1));
+		when(userProxy.findUserByLogin(userDTO.getLogin())).thenReturn(userDTO);
+		when(carRepository.save(any(Car.class))).thenReturn(car1);
+
+		CarDTO result = carService.updateCar(car2.getId(), updateCarDTO, userDTO.getLogin());
+
+		assertNotNull(result);
+		assertEquals(updateCarDTO.getYear(), result.getYear());
+		assertEquals(updateCarDTO.getLicensePlate(), result.getLicensePlate());
+		assertEquals(updateCarDTO.getModel(), result.getModel());
+		assertEquals(updateCarDTO.getColor(), result.getColor());
+
+		verify(carRepository).save(any(Car.class));
+	}
+
+	@Test
+	void testUpdateCar_CarNotFound() {
+		SaveUpdateCarDTO updateCarDTO = new SaveUpdateCarDTO(2021, "XYZ-5678", "YARIS", "BRANCO");
+
+		when(carRepository.findById(car2.getId())).thenReturn(Optional.empty());
+
+		CustomException exception = assertThrows(CustomException.class, () -> {
+			carService.updateCar(car2.getId(), updateCarDTO, userDTO.getLogin());
+		});
+
+		assertEquals("Invalid fields", exception.getMessage());
+		assertEquals(HttpStatus.BAD_REQUEST, exception.getHttpStatus());
+		verify(carRepository, never()).save(any(Car.class));
+	}
+
+	@Test
+	void testDeleteCar_WithLogin_CarExists() {
+		when(carRepository.findById(car1.getId())).thenReturn(Optional.of(car1));
+		when(userProxy.findUserByLogin(userDTO.getLogin())).thenReturn(userDTO);
+
+		carService.deleteCar(car1.getId(), userDTO.getLogin());
+
+		verify(carRepository).delete(car1);
+		verify(userProxy).deleteCarToUser(car1.getId(), userDTO.getLogin());
+	}
+
+	@Test
+	void testDeleteCar_WithLogin_CarNotOwnedByUser() {
+		UserDTO userDTO2 = new UserDTO(2L, "Maria", "Silva", "maria.silva@gmail.com", new Date(), "mariasilva",
+				"senha123", "9876543210", Arrays.asList(carDTO2));
+
+		when(carRepository.findById(car1.getId())).thenReturn(Optional.of(car1));
+		when(userProxy.findUserByLogin(userDTO2.getLogin())).thenReturn(userDTO2);
+
+		carService.deleteCar(car1.getId(), userDTO2.getLogin());
+
+		verify(carRepository, never()).delete(car1);
+		verify(userProxy, never()).deleteCarToUser(anyLong(), anyString());
+	}
+
+	@Test
+	void testDeleteCar_WithoutLogin_CarExists() {
+		when(carRepository.findById(car1.getId())).thenReturn(Optional.of(car1));
+
+		carService.deleteCar(car1.getId(), null);
+
+		verify(carRepository).delete(car1);
+		verify(userProxy, never()).deleteCarToUser(anyLong(), anyString());
+	}
+
+	@Test
+	void testDeleteCar_CarNotFound() {
+		Long carId = 10L;
+
+		when(carRepository.findById(carId)).thenReturn(Optional.empty());
+
+		carService.deleteCar(carId, userDTO.getLogin());
+
+		verify(carRepository, never()).delete(any(Car.class));
+		verify(userProxy, never()).deleteCarToUser(anyLong(), anyString());
 	}
 
 }
