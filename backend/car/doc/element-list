@@ -1,0 +1,6 @@
+com.pitang.car
+com.pitang.car.configurations
+com.pitang.car.controllers
+com.pitang.car.entities
+com.pitang.car.repositories
+com.pitang.car.services
