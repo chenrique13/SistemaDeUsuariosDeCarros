@@ -49,7 +49,7 @@ public class WebSecurityConfig {
 		
 		http.cors(corsSpec -> corsSpec.configurationSource(request -> {
             CorsConfiguration config = new CorsConfiguration();
-            config.addAllowedOrigin("https://ec2-3-90-153-82.compute-1.amazonaws.com");
+            config.addAllowedOrigin("http://localhost:4200");
             config.addAllowedMethod("*");
             config.addAllowedHeader("*");
             config.addExposedHeader("Authorization");
